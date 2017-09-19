@@ -14,10 +14,10 @@ var Main = React.createClass({
           <div className="nav-wrapper">
           <a href="/library" className="brand-logo"><h1>Dewey.</h1></a>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
-              <li><a href="/library" id="libraryPage">My Library</a></li>
-              <li><a href="/groups">Groups</a></li>
-              <li><a href="/discover">Discover</a></li>
-              <li><a href="/logout" id="logout">Log Out</a></li>
+              <li><Link to="/library" id="libraryPage">My Library</Link></li>
+              <li><Link to="/groups">Groups</Link></li>
+              <li><Link to="/discover">Discover</Link></li>
+              <li><Link to="/logout" id="logout">Log Out</Link></li>
             </ul>
           </div>
         </nav>

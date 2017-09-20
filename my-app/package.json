@@ -2,17 +2,28 @@
   "name": "dewey",
   "version": "1.0.0",
   "description": "",
-  "main": "public/index.html",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack -w"
+    "build": "webpack -w",
+    "start": "nodemon server.js"
   },
   "author": "Ahmed Haque",
   "license": "ISC",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.4",
+    "express-session": "^1.15.5",
+    "method-override": "^2.3.9",
+    "morgan": "^1.8.2",
+    "mysql2": "^1.4.2",
+    "nodemon": "^1.12.1",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
-    "react-router": "^2.4.1"
+    "react-router": "^2.4.1",
+    "sequelize": "^4.3.1"
   },
   "devDependencies": {
     "babel-core": "^6.3.13",

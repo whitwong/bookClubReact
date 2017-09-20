@@ -1,4 +1,3 @@
-'use strict';
 module.exports = function (sequelize, DataTypes) {
 	var Library = sequelize.define("Library", {
 		// Giving the Author model a name of type STRING

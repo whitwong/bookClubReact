@@ -81,9 +81,14 @@ h2 {
 
 }
 .container {
-  width:95%;
+  width:100%;
   box-sizing:border-box;
-  margin-top: 20px;
+  margin-top: 0px;
+}
+
+.mainSection {
+  width:95%;
+  margin:auto;
 }
 
 .library {
@@ -130,6 +135,7 @@ td, tr {
 .personalInfo {
   border:solid navy 2px;
   border-radius:10px;
+  margin-top:20px;
 }
 
 #profilePicture {

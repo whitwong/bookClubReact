@@ -21,7 +21,7 @@ var Main = React.createClass({
             </ul>
           </div>
         </nav>
-          <div classNameName="row">
+          <div className="mainSection">
 
             {/* This code will dump the correct Child Component */}
             {this.props.children}

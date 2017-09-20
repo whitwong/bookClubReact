@@ -19,13 +19,13 @@ var hashHistory = router.hashHistory;
 var IndexRoute = router.IndexRoute;
 
 // Reference the high-level components
-var Main = require("../components/Main");
-var Home = require("../components/Home");
-var Signup = require("../components/Signup");
-var Login = require("../components/Login");
-var Library = require("../components/Library");
-var Discussions = require("../components/Discussions");
-var Discover = require("../components/Discover");
+var Main = require("../app/components/Main");
+var Home = require("../app/components/Home");
+var Signup = require("../app/components/Signup");
+var Login = require("../app/components/Login");
+var Library = require("../app/components/Library");
+var Discussions = require("../app/components/Discussions");
+var Discover = require("../app/components/Discover");
 
 // Export the Routes
 module.exports = (

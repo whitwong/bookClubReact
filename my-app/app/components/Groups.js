@@ -10,6 +10,7 @@ import {deepOrange500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Discussion from './Discussion';
 
 class Group extends Component {
 	render() {
@@ -21,7 +22,8 @@ class Group extends Component {
 					</div>
 
 					{/*Discussion Section*/}
-					<div className="col s5 discussion">Discussions
+					<div className="col s5 discussion">
+						<Discussion />
 					</div>
 				</div>
 			</div>

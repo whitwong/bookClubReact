@@ -12,16 +12,22 @@ import Login from '../app/components/Login';
 import Library from '../app/components/Library';
 import Groups from '../app/components/Groups';
 import Discover from '../app/components/Discover';
+import Discussion from '../app/components/Discussion';
 
 
 const Routes = () => (
 
   <Router>
     <div>
-      <Main/>
-        <Route path="/library" component={Library}/>
-        <Route path="/groups" component={Groups}/>
-        <Route path="/discover" component={Discover}/>
+      <Main>
+        <Switch>
+          <Route path="/library" component={Library}/>
+          <Groups>
+            <Route path="/discussion" component={Discussion} />
+          </Groups>
+          <Route path="/discover" component={Discover}/>
+        </Switch>
+      </Main>
     </div>
   </Router>
 )

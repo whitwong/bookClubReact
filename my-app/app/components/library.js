@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {
   BrowserRouter as Router,
-  Route,
-  Switch
+  Route
 } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
@@ -10,6 +9,7 @@ import {deepOrange500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import helpers from './utils/libraryHelpers';
 
 
 const muiTheme = getMuiTheme({
@@ -21,19 +21,26 @@ const muiTheme = getMuiTheme({
 class Library extends Component {
     constructor(props, context) {
     super(props, context);
-
     this.state = {
       open: false,
       title: "",
       author: "",
-      notes:""
+      notes:"",
+      results:""
     };
   }
 
   handleRequestClose = () => {
-    this.setState({
-      open: false,
-    });
+    this.setState({open: false});
+    helpers.saveBook(this.state.title, this.state.author, this.state.comments).then(function(){
+      console.log("Saved Book");
+    })
+    helpers.bookSearch(this.state.title).then(function(data){
+      console.log(data);
+      this.setState({
+        results: data
+      });
+    }.bind(this))
   }
 
   handleTouchTap = () => {
@@ -99,10 +106,10 @@ class Library extends Component {
                     required
                   />
                   <input
-                    value={this.state.notes}
+                    value={this.state.comments}
                     type="text"
                     className="form-control text-left"
-                    placeholder="Notes"
+                    placeholder="Comments"
                     id="notes"
                     onChange={this.handleChange}
                     required
@@ -115,7 +122,8 @@ class Library extends Component {
                 />
               </div>
             </MuiThemeProvider>
-            <div id="tableLibrary"></div>
+            <div>{this.state.results}</div>
+
           </div>
         </div>
       </div>

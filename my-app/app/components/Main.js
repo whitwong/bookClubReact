@@ -22,8 +22,7 @@ class Main extends Component {
           </div>
         </nav>
           <div className="mainSection">
-          {this.props.children}
-           
+            {this.props.children}
           </div>
       </div>
     );

@@ -24,6 +24,9 @@ class Library extends Component {
 
     this.state = {
       open: false,
+      title: "",
+      author: "",
+      notes:""
     };
   }
 
@@ -39,12 +42,18 @@ class Library extends Component {
     });
   }
 
+  handleChange = (event) => {
+    var newState={};
+    newState[event.target.id]=event.target.value;
+    this.setState(newState);
+  }
+
 
   // Here we render the function
   render() {
     const standardActions = (
       <FlatButton
-        label="Ok"
+        label="Add"
         primary={true}
         onTouchTap={this.handleRequestClose}
       />
@@ -69,8 +78,35 @@ class Library extends Component {
                   title="Add a Book"
                   actions={standardActions}
                   onRequestClose={this.handleRequestClose}
+                  autoScrollBodyContent={true}
                 >
-                  1-2-3-4-5
+                  <input
+                    value={this.state.title}
+                    type="text"
+                    className="form-control text-left"
+                    placeholder="Title"
+                    id="title"
+                    onChange={this.handleChange}
+                    required
+                  />
+                  <input
+                    value={this.state.author}
+                    type="text"
+                    className="form-control text-left"
+                    placeholder="Author"
+                    id="author"
+                    onChange={this.handleChange}
+                    required
+                  />
+                  <input
+                    value={this.state.notes}
+                    type="text"
+                    className="form-control text-left"
+                    placeholder="Notes"
+                    id="notes"
+                    onChange={this.handleChange}
+                    required
+                  />
                 </Dialog>
                 <RaisedButton
                   label="Add a Book"

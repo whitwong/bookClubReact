@@ -17,10 +17,10 @@ module.exports = {
         // Webpack will only process files in our app folder. This avoids processing
         // node modules and server files unnecessarily
         include: /app/,
-        loader: "babel",
+        loader: "babel-loader",
         query: {
           // These are the specific transformations we'll be using.
-          presets: ["react", "es2015"]
+          presets: ["es2015", "react", "stage-2"]
         }
       }
     ]

@@ -2,8 +2,8 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 // var passport = require("passport");
-var morgan = require("morgan");
-var cookieParser = require('cookie-parser')
+// var morgan = require("morgan");
+// var cookieParser = require('cookie-parser')
 // var flash    = require('connect-flash');
 var session      = require('express-session');
 
@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 
 // Static directory
 app.use(express.static("public"));

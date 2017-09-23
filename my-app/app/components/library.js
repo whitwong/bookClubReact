@@ -2,10 +2,12 @@ var React = require("react");
 // Including the Link component from React Router to navigate within our application without full page reloads
 var Link = require("react-router").Link;
 
-var Library = React.createClass({
+var createReactClass = require('create-react-class');
+
+var Library = createReactClass({
 
   // Here we render the function
-  render: function() {
+  render() {
 
     return (
         <div className="row">

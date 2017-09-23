@@ -1,47 +1,29 @@
-// Inclue the React library
-var React = require("react");
+import React from 'react'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom'
 
-// Include the react-router module
-var router = require("react-router");
+import Main from '../app/components/Main';
+import {Home} from '../app/components/Home';
+import {Signup} from '../app/components/Signup';
+import {Login} from '../app/components/Login';
+import {Library} from '../app/components/Library';
+import {Group} from '../app/components/Group';
+import {Discover} from '../app/components/Discover';
 
-// Include the Route component for displaying individual routes
-var Route = router.Route;
 
-// Include the Router component to contain all our Routes
-// Here where we can pass in some configuration as props
-var Router = router.Router;
+const Routes = () => (
 
-// Include the hashHistory prop to handle routing client side without a server
-// https://github.com/ReactTraining/react-router/blob/master/docs/guides/Histories.md#hashhistory
-var hashHistory = router.hashHistory;
-
-// Include the IndexRoute (catch-all route)
-var IndexRoute = router.IndexRoute;
-
-// Reference the high-level components
-var Main = require("../app/components/Main");
-var Home = require("../app/components/Home");
-var Signup = require("../app/components/Signup");
-var Login = require("../app/components/Login");
-var Library = require("../app/components/Library");
-var Discussions = require("../app/components/Discussions");
-var Discover = require("../app/components/Discover");
-
-// Export the Routes
-module.exports = (
-
-  // The high level component is the Router component
-  <Router history={hashHistory}>
-
-    <Route path="/" component={Main}>
-
-      {/* If user selects Child1 then show the appropriate component*/}
-      <Route path="Library" component={Library} />
-      <Route path="Discussions" component={Discussions} />
-      <Route path="Discover" component={Discover} />
-
-      <IndexRoute component={Library} />
-
-    </Route>
+  <Router>
+    <div>
+      <Route exact path="/" component={Main}/>
+      <Route path="/library" component={Library}/>
+      <Route path="/group" component={Group}/>
+      <Route path="/discover" component={Discover}/>
+    </div>
   </Router>
-);
+)
+
+export default Routes;

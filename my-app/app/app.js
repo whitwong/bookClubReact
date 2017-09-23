@@ -1,8 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-
-// import {Main} from './components/Main'
 import Routes from '../config/routes.js'
 
 // Needed for onTouchTap
@@ -11,4 +9,4 @@ injectTapEventPlugin();
 
 // Render the main app react component into the app div.
 // For more details see: https://facebook.github.io/react/docs/top-level-api.html#react.render
-render(<Routes/>, document.getElementById('app'));
+render(<Routes />, document.getElementById('app'));

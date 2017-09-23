@@ -1,9 +1,14 @@
-// Include the Main React Dependencies
-var React = require("react");
-var ReactDOM = require("react-dom");
+import React from 'react';
+import {render} from 'react-dom';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
-// Grabs the Routes
-var routes = require("../config/routes");
+// import {Main} from './components/Main'
+import Routes from '../config/routes.js'
 
-// Renders the contents according to the route page.
-ReactDOM.render(routes, document.getElementById("app"));
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
+
+// Render the main app react component into the app div.
+// For more details see: https://facebook.github.io/react/docs/top-level-api.html#react.render
+render(<Routes/>, document.getElementById('app'));

@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import * as firebase from 'firebase';
 
 class Discussion extends Component {
-
-	constructor() {
-		super();
+    constructor(props, context) {
+    super(props, context);
 		this.state = {
 			speed: 10
 		}
@@ -15,7 +14,7 @@ class Discussion extends Component {
 		const speedRef = rootRef.child('speed');
 		speedRef.on('value', snap => {
 			this.setState({
-				speed: snap.val();
+				speed: snap.val()
 			})
 		})
 	}

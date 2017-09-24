@@ -17,7 +17,8 @@ class Main extends Component {
               <li><Link to='/library'>My Library</Link></li>
               <li><Link to="/Groups">Groups</Link></li>
               <li><Link to="/Discover">Discover</Link></li>
-              <li><Link to="/Logout" id="logout">Log Out</Link></li>
+              <li><Link to="/Login">Login</Link></li>
+              <li><Link to="/Signup">Signup</Link></li>
             </ul>
           </div>
         </nav>

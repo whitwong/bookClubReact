@@ -14,34 +14,35 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 class Signup extends Component {
   // Here we render the function
   render() {
-    <div className="body">
-    <div className="row">
-      <div className="col s3"></div>
-      <div className="col s6">
-          <div className="login">
-            <h2>Sign up</h2>
+    return (
+      <div className="body">
+        <div className="row">
+          <div className="col s3"></div>
+          <div className="col s6">
+            <div className="login">
+              <h2>Sign up</h2>
               <form action="/api/users" method="post">
-                  <div>
-                      <label>Email:</label>
-                      <input type="text" name="username"/>
-                  </div>
-                  <div>
-                      <label>Name:</label>
-                      <input type="text" name="name"/>
-                  </div>
-                  <div>
-                      <label>Password:</label>
-                      <input type="password" name="password"/>
-                  </div>
-                  <div>
-                      <button type="submit">Signup</button>
-                  </div>
+                <div>
+                  <label>Email:</label>
+                  <input type="text" name="username"/>
+                </div>
+                <div>
+                  <label>Name:</label>
+                  <input type="text" name="name"/>
+                </div>
+                <div>
+                  <label>Password:</label>
+                  <input type="password" name="password"/>
+                </div>
+                <div>
+                  <button type="submit">Signup</button>
+                </div>
               </form>
+            </div>
           </div>
+        </div>
       </div>
-    </div>
-  </div>
-
+    );
   };
 }
 

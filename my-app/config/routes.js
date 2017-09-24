@@ -14,7 +14,6 @@ import Groups from '../app/components/Groups';
 import Discover from '../app/components/Discover';
 import Discussion from '../app/components/Discussion';
 
-
 const Routes = () => (
 
   <Router>
@@ -22,6 +21,8 @@ const Routes = () => (
       <Main>
         <Switch>
           <Route path="/library" component={Library}/>
+          <Route path="/login" component={Login}/>
+          <Route path="/signup" component={Signup}/>
           <Groups>
             <Route path="/discussion" component={Discussion} />
           </Groups>

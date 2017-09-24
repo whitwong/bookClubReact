@@ -23,9 +23,7 @@ const Routes = () => (
           <Route path="/library" component={Library}/>
           <Route path="/login" component={Login}/>
           <Route path="/signup" component={Signup}/>
-          <Groups>
             <Route path="/discussion" component={Discussion} />
-          </Groups>
           <Route path="/discover" component={Discover}/>
         </Switch>
       </Main>

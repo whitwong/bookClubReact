@@ -231,8 +231,10 @@ div.card.medium{
 }
 
 /*Groups and Discussion Page*/
-
-.groupDiscBtn, .view-members {
+input[type=text]:focus:not([readonly]) {
+  box-shadow: none;
+}
+/*.groupDiscBtn, .view-members {
   float: right;
   margin: 4px;
   background-color: #0277bd;
@@ -250,4 +252,4 @@ div.card.medium{
 
 .userInp4{
   width: 60%;
-}
+}*/

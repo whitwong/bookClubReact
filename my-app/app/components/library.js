@@ -9,7 +9,7 @@ import {deepOrange500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import helpers from './utils/libraryHelpers';
+// import helpers from './utils/libraryHelpers';
 
 
 const muiTheme = getMuiTheme({

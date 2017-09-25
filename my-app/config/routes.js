@@ -15,6 +15,7 @@ import Discover from '../app/components/Discover';
 import Discussion from '../app/components/Discussion';
 
 
+// https://teamtreehouse.com/community/warning-you-should-not-use-route-component-and-route-children-in-the-same-route-route-children-will-be-ignored
 const Routes = () => (
 
   <Router>

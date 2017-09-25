@@ -32,7 +32,7 @@ class Library extends Component {
 
   handleRequestClose = () => {
     this.setState({open: false});
-    helpers.saveBook(this.state.title, this.state.author, this.state.comments).then(function(){
+    helpers.saveBooks(this.state.title, this.state.author, this.state.comments).then(function(){
       console.log("Saved Book");
     })
     helpers.bookSearch(this.state.title).then(function(data){

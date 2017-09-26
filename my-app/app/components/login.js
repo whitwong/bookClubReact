@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {
   BrowserRouter as Router,
-  Route
+  Route,
+  Link
 } from 'react-router-dom';
-import {Link} from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import {deepOrange500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
@@ -26,22 +26,18 @@ class Login extends Component {
             <div className="col s3"></div>
             <div className="col s6">
                 <div className="login">
-                  <h2>Sign up</h2>
+                  <h2>Login</h2>
                     <form action="/login" method="post">
                         <div>
                             <label>Email:</label>
                             <input type="text" name="username"/>
                         </div>
                         <div>
-                            <label>Name:</label>
-                            <input type="text" name="name"/>
-                        </div>
-                        <div>
                             <label>Password:</label>
                             <input type="password" name="password"/>
                         </div>
                         <div>
-                            <button type="submit">Signup</button>
+                            <button type="submit">Login</button>
                         </div>
                     </form>
                 </div>

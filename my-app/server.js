@@ -8,6 +8,10 @@ var flash    = require('connect-flash');
 var session      = require('express-session');
 
 var db = require("./models");
+// require('./passport.js');
+// require('./passport-routes.js');
+// require('./library-api-routes');
+
 
 // Create Instance of Express
 var app = express();
@@ -35,20 +39,19 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 // -------------------------------------------------
 
-// require("./config/passport");
-// require("./config/passport-routes.js");
-
+//Routes
 var LocalStrategy = require('passport-local').Strategy;
 
 app.post("/api/library", function(req,res){
-		// var useId = req.user.id;
+		var useId = req.user.id;
 	db.Library.create({
 		title: req.body.title,
 		author: req.body.author,
 		comments: req.body.comments,
-		// UserId: useId
+		UserId: useId
 	}).then(function(results){
-		// results.userInfo = req.user;
+		results.userInfo = req.user;
+		console.log
 		res.json(results);
 	});
 });
@@ -100,7 +103,7 @@ app.post("/api/library", function(req,res){
       });
   }));
 
-  //LOCAL SIGNIN
+//   //LOCAL SIGNIN
   passport.use('local-login', new LocalStrategy(
     {
         usernameField: 'username', 
@@ -121,12 +124,25 @@ app.post("/api/library", function(req,res){
       });
   }));
 
-  	app.post('/api/users', passport.authenticate('local-signup', 
-		{
-      successRedirect : '/login', // redirect to the secure profile section
-      failureRedirect : '/signup', // redirect back to the signup page if there is an error
-      failureFlash : true // allow flash messages
-    }));
+function signInUser(req, res, error, user, info){
+  if(error) { return res.status(500).json(error); }
+  if(!user) { return res.status(401).json(info.message); }
+  var userId = user.id;
+  sessionHelper.setCurrentUserId(req, res, userId);
+  res.status(200).json(user);
+}
+
+app.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(error, user, info) {
+    signInUser(req, res, error, user, info);
+  })(req, res, next);
+});
+
+app.post('/api/users', function(req, res, next){
+  passport.authenticate('local-signup', function(error, user, info) {
+    signInUser(req, res, error, user, info);
+  })(req, res, next);
+});
 
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/public/index.html");

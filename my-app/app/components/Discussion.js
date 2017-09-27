@@ -32,14 +32,9 @@ const styles = {
   },
 };
 
-function handleActive(tab) {
-  alert(`A tab with this route property ${tab.props['data-route']} was activated.`);
-}
-
 class Discussion extends Component {
-
-	constructor(props) {
-		super(props);
+	constructor() {
+		super();
 		this.state = {
 			message: "",
 			name: "",
@@ -61,6 +56,9 @@ class Discussion extends Component {
 	}
 
 	render(){
+		{/*const {chats} = this.props;
+		const chatIds = Object.keys(chats);*/}
+
 		return(
 			<div className="container">
 				<MuiThemeProvider muiTheme={muiTheme}>
@@ -74,9 +72,16 @@ class Discussion extends Component {
 				        <p>
 				          {this.state.name}: {this.state.message}
 				        </p>
-				        <p>
-				          You can put any sort of HTML or react component in here. It even keeps the component state!
-				        </p>
+{/*				        <div>
+				        	{chatIds.map((id) => {
+				        		const chat = chat[id]
+				        		return (
+				        			<div key={id}>
+				        				<div>{chat.name}: {chat.message}</div>
+				        			</div>
+				        		)
+				        	})}
+				        </div>*/}
 				      </div>
 				    </Tab>
 				  </Tabs>

@@ -57,14 +57,14 @@ app.use(express.static("public"));
 }); */
 
 app.post("/api/library", function (req, res) {
-  var useId = req.user.id;
+  //var useId = req.user.id;
   db.Library.create({
     title: req.body.title,
     author: req.body.author,
     comments: req.body.comments,
     UserId: useId
   }).then(function (results) {
-    results.userInfo = req.user;
+    //results.userInfo = req.user;
     console.log
     res.json(results);
   });

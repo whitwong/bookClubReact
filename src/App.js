@@ -80,6 +80,32 @@ class App extends Component {
                     <Button
                       bsStyle="primary"
                       className="btn-margin"
+                      onClick={this.goTo.bind(this, 'groups')}
+                    >
+                      Groups
+                  </Button>
+                  </li>
+                )
+              }
+              {
+                isAuthenticated() && (
+                  <li>
+                    <Button
+                      bsStyle="primary"
+                      className="btn-margin"
+                      onClick={this.goTo.bind(this, 'discover')}
+                    >
+                      Discover
+                  </Button>
+                  </li>
+                )
+              }
+              {
+                isAuthenticated() && (
+                  <li>
+                    <Button
+                      bsStyle="primary"
+                      className="btn-margin"
                       onClick={this.logout.bind(this)}
                     >
                       Log Out
@@ -87,6 +113,7 @@ class App extends Component {
                   </li>
                 )
               }
+              
 
               {/*             <li><Link to='/library'>My Library</Link></li>
             <li><Link to="/groups">Groups</Link></li>

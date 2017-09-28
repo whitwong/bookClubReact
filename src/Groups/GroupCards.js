@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Route
-} from 'react-router-dom';
 
-import groupHelpers from './utils/groupHelpers';
+import groupHelpers from '../utils/groupHelpers';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

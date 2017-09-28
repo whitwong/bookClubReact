@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch
-} from 'react-router-dom';
+
+import groupHelpers from '../utils/groupHelpers';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import {deepOrange500} from 'material-ui/styles/colors';
@@ -13,7 +11,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Discussion from './Discussion';
 import GroupCards from './GroupCards.js';
 
-class Group extends Component {
+class Groups extends Component {
 	constructor(props) {
 		super(props);
 	
@@ -53,4 +51,4 @@ class Group extends Component {
 
 }
 
-export default Group;
+export default Groups;

@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
 
-/* import {
-  BrowserRouter as Router,
-  Route
-} from 'react-router-dom'; */
+import libraryHelpers from '../utils/libraryHelpers';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import {deepOrange500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import libraryHelpers from '../utils/libraryHelpers';
+
 
 
 const muiTheme = getMuiTheme({

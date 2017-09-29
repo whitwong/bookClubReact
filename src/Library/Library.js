@@ -27,7 +27,8 @@ class Library extends Component {
       title: "",
       author: "",
       notes:"",
-      results:""
+      results:"",
+      image:""
     };
   }
 
@@ -39,7 +40,8 @@ class Library extends Component {
     libraryHelpers.bookSearch(this.state.title).then(function(data){
       console.log(data);
       this.setState({
-        results: data
+        results: data.bookTitle,
+        image: data.bookImage
       });
     }.bind(this))
   }
@@ -124,7 +126,7 @@ class Library extends Component {
               </div>
             </MuiThemeProvider>
             <div>{this.state.results}</div>
-
+            <img src={this.state.image}/>
           </div>
         </div>
       </div>

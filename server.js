@@ -25,20 +25,6 @@ app.use(morgan('dev'));
 // Static directory
 app.use(express.static("public"));
 
-// required for passport
-//app.use(morgan('dev')); // log every request to the console
-//app.use(cookieParser()); // read cookies (needed for auth)
-//app.use(bodyParser()); // get information from html forms
-//app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true })); // session secret // session secret
-//app.use(passport.initialize());
-//app.use(passport.session()); // persistent login sessions
-//app.use(flash()); // use connect-flash for flash messages stored in session
-
-// -------------------------------------------------
-
-
-
-
 /* app.get("/", function (req, res) {
   res.sendFile(__dirname + "/public/index.html");
 });
@@ -57,12 +43,10 @@ app.use(express.static("public"));
 }); */
 
 app.post("/api/library", function (req, res) {
-  var useId = req.user.id;
   db.Library.create({
     title: req.body.title,
     author: req.body.author,
-    comments: req.body.comments,
-    UserId: useId
+    comments: req.body.comments
   }).then(function (results) {
     results.userInfo = req.user;
     console.log

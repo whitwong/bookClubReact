@@ -4,7 +4,7 @@ const groupHelpers = {
 
 	// Get a user's groups and discussions
 	getGroups: (email) => {
-		return axios.get('/api/groups/', email)
+		return axios.get('/api/groups/' + email)
 			.then((response) => {
 				return response;
 			})

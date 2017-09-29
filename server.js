@@ -27,12 +27,9 @@ app.use(express.static("public"));
 
 
 // Get user user's groups and discussions
-app.get("/api/groups", function (req, res) {
-  console.log(req.body);
+app.get("/api/groups/:user", function (req, res) {
   db.User.findOne({
-    where: {
-      email: req.body
-    }
+    where: { email: req.params.user },
   })
     .then(function (user) {
       user.getGroups({

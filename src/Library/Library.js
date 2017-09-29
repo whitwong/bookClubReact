@@ -25,30 +25,33 @@ class Library extends Component {
       author: "",
       notes: "",
       results: "",
-      userId: ""
+      user: "",
+      email: null
     };
 
     this.getUser = this.getUser.bind(this);
   }
 
+  // Use state.email from Auth0 to get MySQL user or create new user. Store user in state.user
   getUser() {
-    userHelpers.getUser(this.state.profile.email)
+    userHelpers.getUser(this.state.email)
     .then((result) => {
       this.setState({
-        userId: result
-      })
+        user: result.data
+      });
     })
   }
 
+  // Get the user profile from Auth0. Store the email in state.email
   componentDidMount() {
-    this.setState({ profile: {} });
+    let self = this;
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
       getProfile((err, profile) => {
-        this.setState({ profile }, this.getUser());
+        this.setState({ email: profile.email }, self.getUser);
       });
     } else {
-      this.setState({ profile: userProfile }, this.getUser());
+      this.setState({ email: userProfile.email }, self.getUser);
     }
   }
 
@@ -97,8 +100,6 @@ class Library extends Component {
               <h2 id="personalName">Username</h2>
               <p id="personalFavorite">Favorite Book: The Power of One</p>
               <p id="personalCurrent">"Currently Reading: You Dont Know JS"</p>
-
-
             </div>
           </div>
           <div className="col s9 bookList">

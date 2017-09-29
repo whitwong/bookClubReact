@@ -3,8 +3,8 @@ import axios from 'axios';
 const groupHelpers = {
 
 	// Get a user's groups and discussions
-	getGroups: () => {
-		return axios.get('/api/groups/discussions')
+	getGroups: (email) => {
+		return axios.get('/api/groups/', email)
 			.then((response) => {
 				return response;
 			})

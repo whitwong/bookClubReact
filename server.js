@@ -57,18 +57,40 @@ app.use(express.static("public"));
 }); */
 
 app.post("/api/library", function (req, res) {
+  console.log("pineapple");
+  console.log(req.user);
   //var useId = req.user.id;
   db.Library.create({
     title: req.body.title,
     author: req.body.author,
     comments: req.body.comments,
-    UserId: useId
+    //UserId: useId
   }).then(function (results) {
     //results.userInfo = req.user;
     console.log
     res.json(results);
   });
 });
+
+app.get('/api/users/:user', function (req, res) {
+  db.User.findOne({
+    where: {
+      email: req.params.user
+    }
+  }).then(function (user) {
+    console.log(user);
+    if (!user) {
+      var newUser = {
+        email: req.params.user,
+      };
+      db.User.create(newUser).then(function (result) {
+        res.json(result)
+      });
+    } else {
+      res.json(user);
+    }
+  });
+})
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));

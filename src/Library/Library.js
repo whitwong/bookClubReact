@@ -1,15 +1,14 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import libraryHelpers from '../utils/libraryHelpers';
+import userHelpers from '../utils/userHelpers';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
-import {deepOrange500} from 'material-ui/styles/colors';
+import { deepOrange500 } from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -18,23 +17,48 @@ const muiTheme = getMuiTheme({
 });
 
 class Library extends Component {
-    constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.state = {
       open: false,
       title: "",
       author: "",
-      notes:"",
-      results:""
+      notes: "",
+      results: "",
+      userId: ""
     };
+
+    this.getUser = this.getUser.bind(this);
   }
 
+  getUser() {
+    userHelpers.getUser(this.state.profile.email)
+    .then((result) => {
+      this.setState({
+        userId: result
+      })
+    })
+  }
+
+  componentDidMount() {
+    this.setState({ profile: {} });
+    const { userProfile, getProfile } = this.props.auth;
+    if (!userProfile) {
+      getProfile((err, profile) => {
+        this.setState({ profile }, this.getUser());
+      });
+    } else {
+      this.setState({ profile: userProfile }, this.getUser());
+    }
+  }
+
+
   handleRequestClose = () => {
-    this.setState({open: false});
-    libraryHelpers.saveBook(this.state.title, this.state.author, this.state.comments).then(function(){
+    this.setState({ open: false });
+    libraryHelpers.saveBook(this.state.title, this.state.author, this.state.comments).then(function () {
       console.log("Saved Book");
     })
-    libraryHelpers.bookSearch(this.state.title).then(function(data){
+    libraryHelpers.bookSearch(this.state.title).then(function (data) {
       console.log(data);
       this.setState({
         results: data
@@ -49,8 +73,8 @@ class Library extends Component {
   }
 
   handleChange = (event) => {
-    var newState={};
-    newState[event.target.id]=event.target.value;
+    var newState = {};
+    newState[event.target.id] = event.target.value;
     this.setState(newState);
   }
 
@@ -73,10 +97,12 @@ class Library extends Component {
               <h2 id="personalName">Username</h2>
               <p id="personalFavorite">Favorite Book: The Power of One</p>
               <p id="personalCurrent">"Currently Reading: You Dont Know JS"</p>
+
+
             </div>
           </div>
           <div className="col s9 bookList">
-          <h2>Bookshelf</h2>
+            <h2>Bookshelf</h2>
             <MuiThemeProvider muiTheme={muiTheme}>
               <div>
                 <Dialog

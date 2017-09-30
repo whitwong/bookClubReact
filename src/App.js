@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import './App.css';
 
+
 class App extends Component {
+
   goTo(route) {
     this.props.history.replace(`/${route}`)
   }
@@ -113,7 +115,7 @@ class App extends Component {
                   </li>
                 )
               }
-              
+
 
               {/*             <li><Link to='/library'>My Library</Link></li>
             <li><Link to="/groups">Groups</Link></li>

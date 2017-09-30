@@ -25,44 +25,31 @@ app.use(morgan('dev'));
 // Static directory
 app.use(express.static("public"));
 
-// required for passport
-//app.use(morgan('dev')); // log every request to the console
-//app.use(cookieParser()); // read cookies (needed for auth)
-//app.use(bodyParser()); // get information from html forms
-//app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true })); // session secret // session secret
-//app.use(passport.initialize());
-//app.use(passport.session()); // persistent login sessions
-//app.use(flash()); // use connect-flash for flash messages stored in session
 
-// -------------------------------------------------
-
-
-
-
-/* app.get("/", function (req, res) {
-  res.sendFile(__dirname + "/public/index.html");
-});
- */
-/* app.get("/api/groups/discussions", function (req, res) {
-
-  db.User.findById(req.user.id)
+// Get user user's groups and discussions
+app.get("/api/groups/:user", function (req, res) {
+  db.User.findOne({
+    where: { email: req.params.user },
+  })
     .then(function (user) {
-        user.getGroups({
-          include: [db.Discussion]
-        })
-          .then(function (groups) {
-            res.json(groups);
-          });
+      user.getGroups({
+        include: [db.Discussion]
+      })
+        .then(function (groups) {
+          res.json(groups);
+        });
     });
-}); */
+});
 
 app.post("/api/library", function (req, res) {
+  console.log("pineapple");
+  console.log(req.user);
   //var useId = req.user.id;
   db.Library.create({
     title: req.body.title,
     author: req.body.author,
     comments: req.body.comments,
-    UserId: useId
+    //UserId: useId
   }).then(function (results) {
     //results.userInfo = req.user;
     console.log
@@ -70,8 +57,28 @@ app.post("/api/library", function (req, res) {
   });
 });
 
+// Get a user based on their email. Create user if email not found.
+app.get('/api/users/:email', function (req, res) {
+  db.User.findOne({
+    where: { email: req.params.email },
+    include: [db.Library]
+  }).then(function (user) {
+    console.log(user);
+    if (!user) {
+      var newUser = {
+        email: req.params.email,
+      };
+      db.User.create(newUser).then(function (result) {
+        res.json(result)
+      });
+    } else {
+      res.json(user);
+    }
+  });
+})
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+  res.sendFile(path.join(__dirname + '/publicindex.html'));
 });
 
 // -------------------------------------------------

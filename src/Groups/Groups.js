@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import groupHelpers from '../utils/groupHelpers';
+import userHelpers from '../utils/userHelpers';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
-import {deepOrange500} from 'material-ui/styles/colors';
+import { deepOrange500 } from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -14,21 +15,25 @@ import GroupCards from './GroupCards.js';
 class Groups extends Component {
 	constructor(props) {
 		super(props);
-	
+
 		this.state = {
-		  groups: [],
+			groups: [],
 		};
-	
-		this.loadGroups = this.loadGroups.bind(this);
-	  }
 
-	  loadGroups() {
-		  groupHelpers.getGroups().then((data) => {
-				console.log(data);
-			  this.setState({groups: data})
-		  })
-	  }
+		this.getGroups = this.getGroups.bind(this);
+	}
 
+	componentDidMount() {
+		this.getGroups();
+	}
+
+	getGroups(result) {
+		const { userProfile } = this.props.auth;
+		console.log(userProfile.email);
+		groupHelpers.getGroups(userProfile.email).then((data) => {
+			this.setState({ groups: data })
+		})
+	}
 
 
 	render() {

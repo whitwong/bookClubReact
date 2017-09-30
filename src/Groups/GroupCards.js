@@ -4,10 +4,10 @@ import groupHelpers from '../utils/groupHelpers';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardHeader } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import { deepOrange500, indigo50, indigo900, indigo700, indigo400, indigo300, cyanA100 } from 'material-ui/styles/colors';
+import { deepOrange500, indigo900, indigo300 } from 'material-ui/styles/colors';
 
 
 const muiTheme = getMuiTheme({
@@ -29,7 +29,7 @@ class GroupCards extends Component {
         let groupToggle = this.props.groups.length;
         console.log(groupToggle);
         let display;
-        if (groupToggle === 0) {
+        if (!groupToggle) {
             display = (
                 <Card style={{ marginTop: '30px' }}>
                     <CardHeader title='Join a Group!'/>

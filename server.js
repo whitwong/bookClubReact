@@ -46,10 +46,17 @@ app.post("/api/library", function (req, res) {
   db.Library.create({
     title: req.body.title,
     author: req.body.author,
-    comments: req.body.comments
+    comments: req.body.comments,
+    link: req.body.link
   }).then(function (results) {
     results.userInfo = req.user;
-    console.log
+    res.json(results);
+  });
+});
+
+app.get("/api/library/", function (req,res){
+  db.Library.findAll()
+  .then(function(results){
     res.json(results);
   });
 });

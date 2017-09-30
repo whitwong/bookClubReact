@@ -18,7 +18,7 @@ const libraryHelpers = {
 			comments: comments,
 			link: link
 		}
-		// console.log("newBook ",require("util").inspect(newBook, {depth:null}));
+		console.log("newBook ",require("util").inspect(newBook, {depth:null}));
 		// console.log("newBook: "+newBook);
 		return axios.post("/api/library",newBook);
 

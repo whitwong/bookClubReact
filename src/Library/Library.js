@@ -17,51 +17,24 @@ const muiTheme = getMuiTheme({
 });
 
 class Library extends Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       open: false,
       title: "",
       author: "",
       notes:"",
-      results:[],
-      user: "",
-      email: null
+      results: []
     };
 
-    this.getUser = this.getUser.bind(this);
   }
-
-  // Use state.email from Auth0 to get MySQL user or create new user. Store user in state.user
-  getUser() {
-    userHelpers.getUser(this.state.email)
-    .then((result) => {
-      this.setState({
-        user: result.data
-      });
-    })
-  }
-
-  // Get the user profile from Auth0. Store the email in state.email
-  componentDidMount() {
-    let self = this;
-    const { userProfile, getProfile } = this.props.auth;
-    if (!userProfile) {
-      getProfile((err, profile) => {
-        this.setState({ email: profile.email }, self.getUser);
-      });
-    } else {
-      this.setState({ email: userProfile.email }, self.getUser);
-    }
-  }
-
 
   handleRequestClose = () => {
     this.setState({open: false});
     libraryHelpers.getBookImage(this.state.title).then(function(data){
       libraryHelpers.saveBook(this.state.title, this.state.author, this.state.comments, data);
       libraryHelpers.showBooks().then(function(response){
-        console.log("newBook ",require("util").inspect(response, {depth:null}));
+        // console.log("newBooks ",require("util").inspect(response, {depth:null}));
         this.setState({
           results: response.data
         })

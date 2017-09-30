@@ -48,16 +48,14 @@ app.post("/api/library", function (req, res) {
     comments: req.body.comments,
     link: req.body.link
   }).then(function (results) {
-    results.userInfo = req.user;
+    // results.userInfo = req.user;
     res.json(results);
   });
 });
 
 app.get("/api/library/", function (req,res){
   db.Library.findAll()
-  .then(function(results){
-    //UserId: useId
-  }).then(function (results) {
+  .then(function (results) {
     //results.userInfo = req.user;
     console.log
     res.json(results);

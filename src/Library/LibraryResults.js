@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class LibraryResults extends Component {
 	render() {
 		return (
-			<div className="container">
+			<div>
       	{this.props.results.map(function(search,i){
         	return (
         		<div className="book" key={i}>

@@ -56,9 +56,6 @@ app.post("/api/library", function (req, res) {
 app.get("/api/library/", function (req,res){
   db.Library.findAll()
   .then(function(results){
-    //UserId: useId
-  }).then(function (results) {
-    //results.userInfo = req.user;
     console.log
     res.json(results);
   });

@@ -22,21 +22,13 @@ class App extends Component {
 
     return (
 
-      <div className="container">
+      <div>
         <nav className="z-depth-0">
           <div className="nav-wrapper">
             <a href="#" className="brand-logo"><h1>Dewey.</h1></a>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
 
-              <li>
-                <Button
-                  bsStyle="primary"
-                  className="btn-margin"
-                  onClick={this.goTo.bind(this, 'home')}
-                >
-                  Home
-            </Button>
-              </li>
+
               {
                 !isAuthenticated() && (
                   <li>

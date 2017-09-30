@@ -10,11 +10,14 @@ const groupHelpers = {
 			})
 	},
 
-	createGroup: (name) => {
-		return axios.post('/api/groups', { name: name})
-		.then((response) => {
-			return response
+	createGroup: (groupName, user) => {
+		return axios.post('/api/groups', {
+			name: groupName,
+			user: user
 		})
+			.then((response) => {
+				return response
+			})
 	},
 
 

@@ -77,8 +77,25 @@ app.get('/api/users/:email', function (req, res) {
   });
 })
 
+// Add a new group and associate the user to that group
+app.post("/api/groups", function (req, res) {
+  db.Group.create({
+    name: req.body.name
+  })
+    .then(function (group) {
+      var groupID = group.id;
+      db.User.findOne({
+        where: { email: req.body.user },
+      })
+        .then(function (user) {
+          user.addGroup(groupID)
+        })
+      res.json(group)
+    })
+});
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/publicindex.html'));
+  res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 // -------------------------------------------------

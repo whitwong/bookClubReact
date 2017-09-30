@@ -51,11 +51,6 @@ class Groups extends Component {
 						<CreateGroup createGroup={this.createGroup} />
 						<GroupCards groups={this.state.groups} />
 					</div>
-
-					{/*Discussion Section*/}
-					<div className="col s5 discussion">
-						<Discussion />
-					</div>
 				</div>
 			</div>
 		)

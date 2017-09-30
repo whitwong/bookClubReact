@@ -48,7 +48,6 @@ app.post("/api/library", function (req, res) {
     comments: req.body.comments,
     link: req.body.link
   }).then(function (results) {
-    results.userInfo = req.user;
     res.json(results);
   });
 });

@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Card, CardActions, CardHeader } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { deepOrange500, indigo900, indigo300 } from 'material-ui/styles/colors';
+import Discussion from './Discussion';
 
 
 const muiTheme = getMuiTheme({
@@ -34,7 +35,7 @@ class GroupCards extends Component {
             );
         } else {
             display = (
-                <div className="col-sm-7">
+                <div className="col-sm-12">
                     {this.props.groups.data.map((group, i) => {
 
                         return (
@@ -44,10 +45,11 @@ class GroupCards extends Component {
                                     title={group.name}
                                     titleStyle={{ fontSize: '22px' }}
                                 />
-                                <CardActions>
+                                {/*<CardActions>
                                     <FlatButton label="Open Discussions" />
                                     <FlatButton label="Action2" />
-                                </CardActions>
+                                </CardActions>*/}
+                                <Discussion groupId={group.id} />
                             </Card>
                         );
                     })}

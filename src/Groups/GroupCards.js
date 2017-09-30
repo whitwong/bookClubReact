@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Route
-} from 'react-router-dom';
-
-import groupHelpers from './utils/groupHelpers';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardHeader } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import { deepOrange500, indigo50, indigo900, indigo700, indigo400, indigo300, cyanA100 } from 'material-ui/styles/colors';
+import { deepOrange500, indigo900, indigo300 } from 'material-ui/styles/colors';
 
 
 const muiTheme = getMuiTheme({
@@ -30,10 +23,10 @@ class GroupCards extends Component {
 
     render() {
 
-        let groupToggle = this.props.groups.length;
-        console.log(groupToggle);
+        //let groupToggle = this.props.groups.length;
+        //console.log(groupToggle);
         let display;
-        if (groupToggle === 0) {
+        if (!this.props.groups.data) {
             display = (
                 <Card style={{ marginTop: '30px' }}>
                     <CardHeader title='Join a Group!'/>
@@ -42,7 +35,7 @@ class GroupCards extends Component {
         } else {
             display = (
                 <div className="col-sm-7">
-                    {this.props.groups.map((group, i) => {
+                    {this.props.groups.data.map((group, i) => {
 
                         return (
 

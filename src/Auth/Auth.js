@@ -9,7 +9,7 @@ export default class Auth {
     redirectUri: AUTH_CONFIG.callbackUrl,
     audience: `https://${AUTH_CONFIG.domain}/userinfo`,
     responseType: 'token id_token',
-    scope: 'openid profile'
+    scope: 'openid profile email'
   });
 
   userProfile;
@@ -31,7 +31,8 @@ export default class Auth {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-        history.replace('/home');
+        // navigate to Library page if logged in
+        history.replace('/library');
       } else if (err) {
         history.replace('/home');
         console.log(err);
@@ -48,8 +49,8 @@ export default class Auth {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
-    // navigate to the home route
-    history.replace('/home');
+    // navigate to the Library page
+    history.replace('/library');
   }
 
   getAccessToken() {

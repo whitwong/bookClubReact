@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import './App.css';
 
+
 class App extends Component {
+
   goTo(route) {
     this.props.history.replace(`/${route}`)
   }
@@ -20,21 +22,13 @@ class App extends Component {
 
     return (
 
-      <div className="container">
+      <div>
         <nav className="z-depth-0">
           <div className="nav-wrapper">
             <a href="#" className="brand-logo"><h1>Dewey.</h1></a>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
 
-              <li>
-                <Button
-                  bsStyle="primary"
-                  className="btn-margin"
-                  onClick={this.goTo.bind(this, 'home')}
-                >
-                  Home
-            </Button>
-              </li>
+
               {
                 !isAuthenticated() && (
                   <li>
@@ -80,6 +74,32 @@ class App extends Component {
                     <Button
                       bsStyle="primary"
                       className="btn-margin"
+                      onClick={this.goTo.bind(this, 'groups')}
+                    >
+                      Groups
+                  </Button>
+                  </li>
+                )
+              }
+              {
+                isAuthenticated() && (
+                  <li>
+                    <Button
+                      bsStyle="primary"
+                      className="btn-margin"
+                      onClick={this.goTo.bind(this, 'discover')}
+                    >
+                      Discover
+                  </Button>
+                  </li>
+                )
+              }
+              {
+                isAuthenticated() && (
+                  <li>
+                    <Button
+                      bsStyle="primary"
+                      className="btn-margin"
                       onClick={this.logout.bind(this)}
                     >
                       Log Out
@@ -87,6 +107,7 @@ class App extends Component {
                   </li>
                 )
               }
+
 
               {/*             <li><Link to='/library'>My Library</Link></li>
             <li><Link to="/groups">Groups</Link></li>

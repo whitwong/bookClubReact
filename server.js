@@ -25,22 +25,21 @@ app.use(morgan('dev'));
 // Static directory
 app.use(express.static("public"));
 
-/* app.get("/", function (req, res) {
-  res.sendFile(__dirname + "/public/index.html");
-});
- */
-/* app.get("/api/groups/discussions", function (req, res) {
 
-  db.User.findById(req.user.id)
+// Get user user's groups and discussions
+app.get("/api/groups/:user", function (req, res) {
+  db.User.findOne({
+    where: { email: req.params.user },
+  })
     .then(function (user) {
-        user.getGroups({
-          include: [db.Discussion]
-        })
-          .then(function (groups) {
-            res.json(groups);
-          });
+      user.getGroups({
+        include: [db.Discussion]
+      })
+        .then(function (groups) {
+          res.json(groups);
+        });
     });
-}); */
+});
 
 app.post("/api/library", function (req, res) {
   db.Library.create({
@@ -57,12 +56,53 @@ app.post("/api/library", function (req, res) {
 app.get("/api/library/", function (req,res){
   db.Library.findAll()
   .then(function(results){
+    //UserId: useId
+  }).then(function (results) {
+    //results.userInfo = req.user;
+    console.log
     res.json(results);
   });
 });
 
+// Get a user based on their email. Create user if email not found.
+app.get('/api/users/:email', function (req, res) {
+  db.User.findOne({
+    where: { email: req.params.email },
+    include: [db.Library]
+  }).then(function (user) {
+    console.log(user);
+    if (!user) {
+      var newUser = {
+        email: req.params.email,
+      };
+      db.User.create(newUser).then(function (result) {
+        res.json(result)
+      });
+    } else {
+      res.json(user);
+    }
+  });
+})
+
+// Add a new group and associate the user to that group
+app.post("/api/groups", function (req, res) {
+  db.Group.create({
+    name: req.body.name
+  })
+    .then(function (group) {
+      var groupID = group.id;
+      db.User.findOne({
+        where: { email: req.body.user },
+      })
+        .then(function (user) {
+          user.addGroup(groupID)
+        })
+      res.json(group)
+    })
+});
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+  res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 // -------------------------------------------------

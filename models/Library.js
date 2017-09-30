@@ -11,6 +11,9 @@ module.exports = function (sequelize, DataTypes) {
 
 		comments: {
 			type: DataTypes.TEXT
+		},
+		link: {
+			type: DataTypes.TEXT
 		}
 	});
 

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
-import libraryHelpers from '../utils/libraryHelpers';
 import userHelpers from '../utils/userHelpers';
-
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import { deepOrange500 } from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import LibraryResults from './LibraryResults';
+import libraryHelpers from '../utils/libraryHelpers';
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -23,8 +23,8 @@ class Library extends Component {
       open: false,
       title: "",
       author: "",
-      notes: "",
-      results: "",
+      notes:"",
+      results:[],
       user: "",
       email: null
     };
@@ -57,15 +57,15 @@ class Library extends Component {
 
 
   handleRequestClose = () => {
-    this.setState({ open: false });
-    libraryHelpers.saveBook(this.state.title, this.state.author, this.state.comments).then(function () {
-      console.log("Saved Book");
-    })
-    libraryHelpers.bookSearch(this.state.title).then(function (data) {
-      console.log(data);
-      this.setState({
-        results: data
-      });
+    this.setState({open: false});
+    libraryHelpers.getBookImage(this.state.title).then(function(data){
+      libraryHelpers.saveBook(this.state.title, this.state.author, this.state.comments, data);
+      libraryHelpers.showBooks().then(function(response){
+        console.log("newBook ",require("util").inspect(response, {depth:null}));
+        this.setState({
+          results: response.data
+        })
+      }.bind(this))
     }.bind(this))
   }
 
@@ -81,7 +81,6 @@ class Library extends Component {
     this.setState(newState);
   }
 
-
   // Here we render the function
   render() {
     const standardActions = (
@@ -95,61 +94,75 @@ class Library extends Component {
     return (
       <div className="wrapper">
         <div className="row">
-          <div className="col s3 about">
+          <div className="col-sm-3 about">
             <div className="row personalInfo">
-              <h2 id="personalName">Username</h2>
-              <p id="personalFavorite">Favorite Book: The Power of One</p>
-              <p id="personalCurrent">"Currently Reading: You Dont Know JS"</p>
+              <div className="panel panel-primary">
+                <div className="panel-heading">
+                  <h3 className="panel-title">Username</h3>
+                </div>
+                <div className="panel-body">
+                  <p id="personalFavorite">Favorite Book: The Power of One</p>
+                  <p id="personalCurrent">"Currently Reading: You Dont Know JS"</p>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="col s9 bookList">
-            <h2>Bookshelf</h2>
-            <MuiThemeProvider muiTheme={muiTheme}>
-              <div>
-                <Dialog
-                  open={this.state.open}
-                  title="Add a Book"
-                  actions={standardActions}
-                  onRequestClose={this.handleRequestClose}
-                  autoScrollBodyContent={true}
-                >
-                  <input
-                    value={this.state.title}
-                    type="text"
-                    className="form-control text-left"
-                    placeholder="Title"
-                    id="title"
-                    onChange={this.handleChange}
-                    required
-                  />
-                  <input
-                    value={this.state.author}
-                    type="text"
-                    className="form-control text-left"
-                    placeholder="Author"
-                    id="author"
-                    onChange={this.handleChange}
-                    required
-                  />
-                  <input
-                    value={this.state.comments}
-                    type="text"
-                    className="form-control text-left"
-                    placeholder="Comments"
-                    id="notes"
-                    onChange={this.handleChange}
-                    required
-                  />
-                </Dialog>
-                <RaisedButton
-                  label="Add a Book"
-                  secondary={true}
-                  onTouchTap={this.handleTouchTap}
-                />
-              </div>
-            </MuiThemeProvider>
-            <div>{this.state.results}</div>
 
+          <div className="col-sm-9 bookList">
+            <div className="panel panel-primary">
+              <div className="panel-heading">
+                <h3 className="panel-title">BookShelf</h3>
+              </div>
+              <div className="panel-body"> 
+                <MuiThemeProvider muiTheme={muiTheme}>
+                  <div>
+                    <Dialog
+                      open={this.state.open}
+                      title="Add a Book"
+                      actions={standardActions}
+                      onRequestClose={this.handleRequestClose}
+                      autoScrollBodyContent={true}
+                    >
+                      <input
+                        value={this.state.title}
+                        type="text"
+                        className="form-control text-left"
+                        placeholder="Title"
+                        id="title"
+                        onChange={this.handleChange}
+                        required
+                      />
+                      <input
+                        value={this.state.author}
+                        type="text"
+                        className="form-control text-left"
+                        placeholder="Author"
+                        id="author"
+                        onChange={this.handleChange}
+                        required
+                      />
+                      <input
+                        value={this.state.comments}
+                        type="text"
+                        className="form-control text-left"
+                        placeholder="Comments"
+                        id="comments"
+                        onChange={this.handleChange}
+                        required
+                      />
+                    </Dialog>
+                    <RaisedButton
+                      label="Add a Book"
+                      secondary={true}
+                      onTouchTap={this.handleTouchTap}
+                    />
+                  </div>
+                </MuiThemeProvider>
+                <div>
+                  <LibraryResults results={this.state.results}/>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

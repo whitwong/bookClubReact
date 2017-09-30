@@ -42,13 +42,20 @@ app.get("/api/groups/:user", function (req, res) {
 });
 
 app.post("/api/library", function (req, res) {
-  console.log("pineapple");
-  console.log(req.user);
-  //var useId = req.user.id;
   db.Library.create({
     title: req.body.title,
     author: req.body.author,
     comments: req.body.comments,
+    link: req.body.link
+  }).then(function (results) {
+    results.userInfo = req.user;
+    res.json(results);
+  });
+});
+
+app.get("/api/library/", function (req,res){
+  db.Library.findAll()
+  .then(function(results){
     //UserId: useId
   }).then(function (results) {
     //results.userInfo = req.user;

@@ -58,8 +58,8 @@ class Library extends Component {
   handleRequestClose = () => {
     this.setState({open: false});
     libraryHelpers.getBookImageTitle(this.state.title).then(function(data){
-      console.log("Data ",require("util").inspect(data, {depth:null}))
-      libraryHelpers.saveBook(data.returnedTitle, this.state.author, this.state.comments, data.returnedLink);
+      // console.log("Data ",require("util").inspect(data, {depth:null}))
+      libraryHelpers.saveBook(data.returnedTitle, data.returnedAuthor, this.state.comments, data.returnedLink);
       libraryHelpers.showBooks().then(function(response){
         console.log("newBook ",require("util").inspect(response, {depth:null}));
         this.setState({
@@ -111,7 +111,7 @@ class Library extends Component {
           <div className="col-sm-9 bookList">
             <div className="panel panel-primary">
               <div className="panel-heading">
-                <h3 className="panel-title">BookShelf</h3>
+                <h3 className="panel-title">Bookshelf</h3>
               </div>
               <div className="panel-body"> 
                 <MuiThemeProvider muiTheme={muiTheme}>

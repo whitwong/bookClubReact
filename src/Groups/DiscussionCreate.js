@@ -18,9 +18,10 @@ class discussionCreate extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    helpers.createDiscussion(this.props.groupId, this.state.discName).then(function(){
-        console.log("Discussion Created")
-    })
+    helpers.createDiscussion(this.props.groupId, this.state.discName)
+      .then(() => {
+        this.props.getDiscussions();
+      })
   }
 
   handleFormChange = (event) => {

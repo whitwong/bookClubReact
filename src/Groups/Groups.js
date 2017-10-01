@@ -4,8 +4,6 @@ import groupHelpers from '../utils/groupHelpers';
 
 import GroupCards from './GroupCards.js';
 import CreateGroup from './CreateGroup.js';
-import Discussion from './Discussion';
-
 
 class Groups extends Component {
 	constructor(props) {

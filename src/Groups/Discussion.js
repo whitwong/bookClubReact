@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 
 import discussionHelpers from '../utils/helpersDiscussion';
 
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {deepOrange500} from 'material-ui/styles/colors';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import * as firebase from 'firebase';
 import CreateDiscussion from './DiscussionCreate';
@@ -19,44 +16,27 @@ const config = {
 };
 firebase.initializeApp(config);
 
-const muiTheme = getMuiTheme({
-  palette: {
-    accent1Color: deepOrange500,
-  },
-});
-
-const styles = {
-  headline: {
-    fontSize: 24,
-    paddingTop: 16,
-    marginBottom: 12,
-    fontWeight: 400,
-  },
-};
-
 class Discussion extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			message: "",
 			name: "",
-			time: firebase.database.ServerValue.TIMESTAMP
+			time: firebase.database.ServerValue.TIMESTAMP,
+			discList: []
 		}
 		this.getDiscussions = this.getDiscussions.bind(this);
 	}
 
-	componentDidMount() {
-		this.getDiscussions();
-	}
-
 	getDiscussions() {
 		discussionHelpers.getDiscussionsOfGroup(this.props.groupId)
-			.then((results) => {
-				console.log("Discussion List: " + results);
-			});
+			.then((ListOfDiscussions) => {
+				this.setState({ discList: ListOfDiscussions })
+			})
 	}
 
 	componentDidMount(){
+		this.getDiscussions();
 		const rootRef = firebase.database().ref().child('chat');
 		// Figure out how to get chat messages out of firebase without unique keys for each message
 		const chatRef = rootRef.child('chat' + 1).child("-Kty-D9BrB5qIgKEhvt8");
@@ -73,34 +53,49 @@ class Discussion extends Component {
 		{/*const {chats} = this.props;
 		const chatIds = Object.keys(chats);*/}
 
+		let display;
+		if (!this.state.discList.data){
+			display = (
+			  <Tabs className="col-sm-5">
+			    <Tab label="+ Create Chat" >
+			    	<CreateDiscussion groupId={this.props.groupId} getDiscussions={this.getDiscussions} />
+			    </Tab>
+			  </Tabs>
+			);
+		} else {
+		  display = (
+			  <Tabs className="col-sm-5">
+			  	<Tab label="+ Create Chat" >
+			    	<CreateDiscussion groupId={this.props.groupId} getDiscussions={this.getDiscussions} />
+			    </Tab>
+			    {this.state.discList.data.map((discussion, i)=>{
+			    	return (
+			    		<Tab key={i} label={discussion.name}>
+					      <div>
+					        <p>
+					          {this.state.name}: {this.state.message}
+					        </p>
+					        {/*<div>
+					        	{chatIds.map((id) => {
+					        		const chat = chat[id]
+					        		return (
+					        			<div key={id}>
+					        				<div>{chat.name}: {chat.message}</div>
+					        			</div>
+					        		)
+					        	})}
+					        </div>*/}
+					      </div>
+			    		</Tab>
+			    	)
+			    })}
+			  </Tabs>
+		  );
+		}
+
 		return(
 			<div className="container">
-				<MuiThemeProvider muiTheme={muiTheme}>
-				  <Tabs className="col-sm-5">
-				    <Tab label="+ Create Chat" >
-				    	<CreateDiscussion groupId={this.props.groupId} />
-				    </Tab>
-
-				    {/*<Tab label="Test Tab" >
-				      <div>
-				        <h2 style={styles.headline}>Tab Two</h2>
-				        <p>
-				          {this.state.name}: {this.state.message}
-				        </p>
-				        <div>
-				        	{chatIds.map((id) => {
-				        		const chat = chat[id]
-				        		return (
-				        			<div key={id}>
-				        				<div>{chat.name}: {chat.message}</div>
-				        			</div>
-				        		)
-				        	})}
-				        </div>
-				      </div>
-				    </Tab>*/}
-				  </Tabs>
-				</MuiThemeProvider>
+				{display}
 			</div>
 		)
 	}

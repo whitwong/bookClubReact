@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import userHelpers from '../utils/userHelpers';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';

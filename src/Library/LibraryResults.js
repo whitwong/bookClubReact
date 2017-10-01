@@ -19,15 +19,30 @@ class LibraryResults extends Component {
     super(props);
     this.state = {
       open: false,
+      modalTitle:"",
+      modalAuthor:"",
+      modalRating:"",
+      modalDescription: ""
     };
   }
   handleRequestClose = () => {
     this.setState({open: false});
   }
-  handleTouchTap = () => {
+  handleTouchTap = (event) => {
     this.setState({
       open: true,
     });
+    console.log("Modal Title: "+event.target.id);
+    libraryHelpers.modalInfo(event.target.id).then(function(response){
+      // console.log("response ", require("util").inspect(response,{depth:null}));
+        // console.log(response.title);
+      this.setState({
+        modalTitle: response.title,
+        modalAuthor: response.author,
+        modalRating: response.rating,
+        modalDescription: response.description
+      })
+    }.bind(this))
   }    
 
 	render() {
@@ -43,24 +58,26 @@ class LibraryResults extends Component {
 			<div>
       	{this.props.results.map(function(search,i){
           return (
-            <MuiThemeProvider muiTheme={muiTheme} className="book" key={i}>
-              <div>
+            <MuiThemeProvider muiTheme={muiTheme} key={i}>
+              <div className="book">
                 <Dialog
                   open={this.state.open}
-                  title="Add a Book"
                   actions={standardActions}
                   onRequestClose={this.handleRequestClose}
                   autoScrollBodyContent={true}
                 >
-                  <p>Test</p>
+                  <h3>{this.state.modalTitle}</h3>
+                  <h4>{this.state.modalAuthor}</h4>
+                  <h4>Rating: {this.state.modalRating}/5</h4>
+                  <p>Summary: {this.state.modalDescription}</p>
+
                 </Dialog>
-                <RaisedButton
-                  label="Add a Book"
-                  secondary={true}
+                <div
                   onTouchTap={this.handleTouchTap}
-                />
+                >
                   <p className="bookTitle">{search.title}</p>
-                  <img className="bookImage" id="bookImg" src={search.link}/>
+                  <img className="bookImage" id={search.title} src={search.link}/>
+                </div>
               </div>
             </MuiThemeProvider>
           )

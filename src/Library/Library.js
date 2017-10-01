@@ -57,8 +57,9 @@ class Library extends Component {
 
   handleRequestClose = () => {
     this.setState({open: false});
-    libraryHelpers.getBookImage(this.state.title).then(function(data){
-      libraryHelpers.saveBook(this.state.title, this.state.author, this.state.comments, data);
+    libraryHelpers.getBookImageTitle(this.state.title).then(function(data){
+      console.log("Data ",require("util").inspect(data, {depth:null}))
+      libraryHelpers.saveBook(data.returnedTitle, this.state.author, this.state.comments, data.returnedLink);
       libraryHelpers.showBooks().then(function(response){
         console.log("newBook ",require("util").inspect(response, {depth:null}));
         this.setState({

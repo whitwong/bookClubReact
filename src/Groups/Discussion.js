@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 
 import discussionHelpers from '../utils/helpersDiscussion';
 
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {deepOrange500} from 'material-ui/styles/colors';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import * as firebase from 'firebase';
 import CreateDiscussion from './DiscussionCreate';
@@ -19,19 +18,8 @@ const config = {
 };
 firebase.initializeApp(config);
 
-const muiTheme = getMuiTheme({
-  palette: {
-    accent1Color: deepOrange500,
-  },
-});
-
-const styles = {
-  headline: {
-    fontSize: 24,
-    paddingTop: 16,
-    marginBottom: 12,
-    fontWeight: 400,
-  },
+const divStyle = {
+    textAlign: "center"
 };
 
 class Discussion extends Component {
@@ -40,67 +28,120 @@ class Discussion extends Component {
 		this.state = {
 			message: "",
 			name: "",
-			time: firebase.database.ServerValue.TIMESTAMP
+			time: "",
+			discList: [],
+			userMessage: "",
+			firebaseMessages: [],
+			chatId: ""
 		}
 		this.getDiscussions = this.getDiscussions.bind(this);
+		this.handleSubmitChat = this.handleSubmitChat.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+		this.handleTabClick = this.handleTabClick.bind(this);
+		this.getData = this.getData.bind(this);
 	}
 
-	componentDidMount() {
-		this.getDiscussions();
-	}
+  handleChange = (event) => {
+    var newState={};
+    newState[event.target.id]=event.target.value;
+    this.setState(newState);
+  }
+
+  handleTabClick(tab) {
+  	console.log("DiscussionID: " + tab.props.value);
+  	this.setState({ chatId: tab.props.value }, this.getData)
+  }
 
 	getDiscussions() {
 		discussionHelpers.getDiscussionsOfGroup(this.props.groupId)
-			.then((results) => {
-				console.log("Discussion List: " + results);
-			});
+			.then((ListOfDiscussions) => {
+				this.setState({ discList: ListOfDiscussions })
+			})
 	}
 
-	componentDidMount(){
-		const rootRef = firebase.database().ref().child('chat');
-		// Figure out how to get chat messages out of firebase without unique keys for each message
-		const chatRef = rootRef.child('chat' + 1).child("-Kty-D9BrB5qIgKEhvt8");
+  handleSubmitChat = (event) => {
+    event.preventDefault();
+    console.log("Chat ID: " + this.state.chatId)
+		const chatRef = firebase.database().ref().child('chat').child('chat'+this.state.chatId);
+		const chat = {
+			message: this.state.userMessage,
+			name: "Whitney",
+			time: firebase.database.ServerValue.TIMESTAMP
+		}
+		chatRef.push(chat);
+    this.setState({ userMessage: "" });
+  }
+
+  getData() {
+		const chatRef = firebase.database().ref().child('chat').child('chat'+this.state.chatId);
 		chatRef.on('value', snap => {
+			let firebaseMessages = snap.val();
+			let newStateChat = [];
+			for (let chat in firebaseMessages){
+				newStateChat.push({
+					id: chat,
+					message: firebaseMessages[chat].message,
+					name: firebaseMessages[chat].name
+				})
+			}
 			this.setState({
-				message: snap.val().message,
-				name: snap.val().name,
-				time: snap.val().time
+				firebaseMessages: newStateChat
 			})
 		})
+  }
+
+	componentDidMount(){
+		this.getDiscussions();
 	}
 
 	render(){
-		{/*const {chats} = this.props;
-		const chatIds = Object.keys(chats);*/}
+		let display;
+		if (!this.state.discList.data){
+			display = (
+			  <Tabs className="col-sm-5">
+			    <Tab label="+ Create Chat" >
+			    	<CreateDiscussion groupId={this.props.groupId} getDiscussions={this.getDiscussions} />
+			    </Tab>
+			  </Tabs>
+			);
+		} else {
+		  display = (
+			  <Tabs className="col-sm-5">
+			  	<Tab label="+ Create Chat" >
+			    	<CreateDiscussion groupId={this.props.groupId} getDiscussions={this.getDiscussions} />
+			    </Tab>
+			    {this.state.discList.data.map((discussion, i)=>{
+			    	return (
+			    		<Tab key={i} label={discussion.name} value={discussion.id} onActive={this.handleTabClick}>
+					      <div>
+					      {this.state.firebaseMessages.map((chat) => {
+					      	return(
+					      		<p key={chat.id}>
+					          	{chat.name}: {chat.message}
+					        	</p>
+					        )
+					      })}
+					        <TextField 
+					          value={this.state.userMessage}
+					          type="text"
+					          placeholder="Add to the conversation!"
+					          id="userMessage"
+					          onChange={this.handleChange}
+					          fullWidth={true}
+					          onSubmit={(event) => this.handleSubmitChat(event)}
+					         />
+					        <RaisedButton label="Add" type="submit" primary={true} onClick={this.handleSubmitChat} />
+					      </div>
+			    		</Tab>
+			    	)
+			    })}
+			  </Tabs>
+		  );
+		}
 
 		return(
-			<div className="container">
-				<MuiThemeProvider muiTheme={muiTheme}>
-				  <Tabs className="col-sm-5">
-				    <Tab label="+ Create Chat" >
-				    	<CreateDiscussion groupId={this.props.groupId} />
-				    </Tab>
-
-				    {/*<Tab label="Test Tab" >
-				      <div>
-				        <h2 style={styles.headline}>Tab Two</h2>
-				        <p>
-				          {this.state.name}: {this.state.message}
-				        </p>
-				        <div>
-				        	{chatIds.map((id) => {
-				        		const chat = chat[id]
-				        		return (
-				        			<div key={id}>
-				        				<div>{chat.name}: {chat.message}</div>
-				        			</div>
-				        		)
-				        	})}
-				        </div>
-				      </div>
-				    </Tab>*/}
-				  </Tabs>
-				</MuiThemeProvider>
+			<div className="container" style={divStyle}>
+				{display}
 			</div>
 		)
 	}

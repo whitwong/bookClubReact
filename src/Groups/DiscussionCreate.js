@@ -14,13 +14,16 @@ class discussionCreate extends Component {
         discName: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFormChange = this.handleFormChange.bind(this);
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    helpers.createDiscussion(this.props.groupId, this.state.discName).then(function(){
-        console.log("Discussion Created")
-    })
+    helpers.createDiscussion(this.props.groupId, this.state.discName)
+      .then(() => {
+        this.props.getDiscussions();
+        this.setState({ discName: "" });
+      })
   }
 
   handleFormChange = (event) => {

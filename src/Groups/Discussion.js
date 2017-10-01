@@ -28,7 +28,7 @@ class Discussion extends Component {
 		this.state = {
 			message: "",
 			name: "",
-			time: firebase.database.ServerValue.TIMESTAMP,
+			time: "",
 			discList: [],
 			userMessage: "",
 			firebaseMessages: [],
@@ -66,7 +66,7 @@ class Discussion extends Component {
 		const chat = {
 			message: this.state.userMessage,
 			name: "Whitney",
-			date: Date.now()
+			time: firebase.database.ServerValue.TIMESTAMP
 		}
 		chatRef.push(chat);
     this.setState({ userMessage: "" });

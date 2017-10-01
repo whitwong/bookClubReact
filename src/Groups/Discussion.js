@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import discussionHelpers from '../utils/helpersDiscussion';
 
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import * as firebase from 'firebase';
 import CreateDiscussion from './DiscussionCreate';
@@ -16,6 +18,10 @@ const config = {
 };
 firebase.initializeApp(config);
 
+const divStyle = {
+    textAlign: "center"
+};
+
 class Discussion extends Component {
 	constructor(props) {
 		super(props);
@@ -23,10 +29,28 @@ class Discussion extends Component {
 			message: "",
 			name: "",
 			time: firebase.database.ServerValue.TIMESTAMP,
-			discList: []
+			discList: [],
+			userMessage: "",
+			firebaseMessages: [],
+			chatId: ""
 		}
 		this.getDiscussions = this.getDiscussions.bind(this);
+		this.handleSubmitChat = this.handleSubmitChat.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+		this.handleTabClick = this.handleTabClick.bind(this);
+		this.getData = this.getData.bind(this);
 	}
+
+  handleChange = (event) => {
+    var newState={};
+    newState[event.target.id]=event.target.value;
+    this.setState(newState);
+  }
+
+  handleTabClick(tab) {
+  	console.log("DiscussionID: " + tab.props.value);
+  	this.setState({ chatId: tab.props.value }, this.getData)
+  }
 
 	getDiscussions() {
 		discussionHelpers.getDiscussionsOfGroup(this.props.groupId)
@@ -35,24 +59,42 @@ class Discussion extends Component {
 			})
 	}
 
-	componentDidMount(){
-		this.getDiscussions();
-		const rootRef = firebase.database().ref().child('chat');
-		// Figure out how to get chat messages out of firebase without unique keys for each message
-		const chatRef = rootRef.child('chat' + 1).child("-Kty-D9BrB5qIgKEhvt8");
+  handleSubmitChat = (event) => {
+    event.preventDefault();
+    console.log("Chat ID: " + this.state.chatId)
+		const chatRef = firebase.database().ref().child('chat').child('chat'+this.state.chatId);
+		const chat = {
+			message: this.state.userMessage,
+			name: "Whitney",
+			date: Date.now()
+		}
+		chatRef.push(chat);
+    this.setState({ userMessage: "" });
+  }
+
+  getData() {
+		const chatRef = firebase.database().ref().child('chat').child('chat'+this.state.chatId);
 		chatRef.on('value', snap => {
+			let firebaseMessages = snap.val();
+			let newStateChat = [];
+			for (let chat in firebaseMessages){
+				newStateChat.push({
+					id: chat,
+					message: firebaseMessages[chat].message,
+					name: firebaseMessages[chat].name
+				})
+			}
 			this.setState({
-				message: snap.val().message,
-				name: snap.val().name,
-				time: snap.val().time
+				firebaseMessages: newStateChat
 			})
 		})
+  }
+
+	componentDidMount(){
+		this.getDiscussions();
 	}
 
 	render(){
-		{/*const {chats} = this.props;
-		const chatIds = Object.keys(chats);*/}
-
 		let display;
 		if (!this.state.discList.data){
 			display = (
@@ -70,21 +112,25 @@ class Discussion extends Component {
 			    </Tab>
 			    {this.state.discList.data.map((discussion, i)=>{
 			    	return (
-			    		<Tab key={i} label={discussion.name}>
+			    		<Tab key={i} label={discussion.name} value={discussion.id} onActive={this.handleTabClick}>
 					      <div>
-					        <p>
-					          {this.state.name}: {this.state.message}
-					        </p>
-					        {/*<div>
-					        	{chatIds.map((id) => {
-					        		const chat = chat[id]
-					        		return (
-					        			<div key={id}>
-					        				<div>{chat.name}: {chat.message}</div>
-					        			</div>
-					        		)
-					        	})}
-					        </div>*/}
+					      {this.state.firebaseMessages.map((chat) => {
+					      	return(
+					      		<p key={chat.id}>
+					          	{chat.name}: {chat.message}
+					        	</p>
+					        )
+					      })}
+					        <TextField 
+					          value={this.state.userMessage}
+					          type="text"
+					          placeholder="Add to the conversation!"
+					          id="userMessage"
+					          onChange={this.handleChange}
+					          fullWidth={true}
+					          onSubmit={(event) => this.handleSubmitChat(event)}
+					         />
+					        <RaisedButton label="Add" type="submit" primary={true} onClick={this.handleSubmitChat} />
 					      </div>
 			    		</Tab>
 			    	)
@@ -94,7 +140,7 @@ class Discussion extends Component {
 		}
 
 		return(
-			<div className="container">
+			<div className="container" style={divStyle}>
 				{display}
 			</div>
 		)

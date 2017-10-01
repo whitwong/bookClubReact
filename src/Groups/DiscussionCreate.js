@@ -14,6 +14,7 @@ class discussionCreate extends Component {
         discName: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFormChange = this.handleFormChange.bind(this);
   }
 
   handleSubmit = (event) => {
@@ -21,6 +22,7 @@ class discussionCreate extends Component {
     helpers.createDiscussion(this.props.groupId, this.state.discName)
       .then(() => {
         this.props.getDiscussions();
+        this.setState({ discName: "" });
       })
   }
 

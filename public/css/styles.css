@@ -61,3 +61,16 @@ h2 {
     margin: 15px auto;
     text-align: center
 }
+.bookTitle {
+    margin: 2px;
+    font-weight: bold;
+    color: navy;
+}
+.bookAuthor {
+    color: navy;
+    font-size: 0.9em;
+    margin: 0px;
+}
+.bookImage{
+  width:130px;
+}

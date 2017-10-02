@@ -1,3 +1,7 @@
+// **************************
+//   ~~NO LONGER IN USE ~~
+// **************************
+/* 
 import React, { Component } from 'react';
 
 import groupHelpers from '../utils/groupHelpers';
@@ -7,16 +11,20 @@ import CreateGroup from './CreateGroup.js';
 import Discussion from './Discussion';
 
 
+
 class Groups extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			groups: [],
+			selected: false,
+			selectedGroup: "",
 		};
 
 		this.getGroups = this.getGroups.bind(this);
 		this.createGroup = this.createGroup.bind(this);
+		this.selectGroup = this.selectGroup.bind(this);
 	}
 
 	componentDidMount() {
@@ -25,7 +33,6 @@ class Groups extends Component {
 
 	getGroups() {
 		const { userProfile } = this.props.auth;
-		console.log(userProfile.email);
 		groupHelpers.getGroups(userProfile.email)
 			.then((data) => {
 				this.setState({ groups: data })
@@ -40,16 +47,37 @@ class Groups extends Component {
 			})
 	}
 
+	selectGroup(group) {
+		this.setState({ 
+			selectedGroup: group,
+			selected: true
+		 })
+	}
+
 
 	render() {
 
+		let display;
+		if (!this.state.selected) {
+			display = (
+				<div>
+					<CreateGroup createGroup={this.createGroup} />
+					<GroupCards groups={this.state.groups} selectGroup={this.selectGroup} />
+				</div>
+			);
+
+		} else {
+			display = (
+				<Discussion group={this.state.selectedGroup} />
+			);
+			
+		}
+
 		return (
-			<div className="wrapper">
+			<div className="container">
 				<div className="row">
-					{/*Group Section*/}
-					<div className="col s7 group">
-						<CreateGroup createGroup={this.createGroup} />
-						<GroupCards groups={this.state.groups} />
+					<div className="col 12">
+						{display}
 					</div>
 				</div>
 			</div>
@@ -58,4 +86,4 @@ class Groups extends Component {
 
 }
 
-export default Groups;
+export default Groups; */

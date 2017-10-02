@@ -13,6 +13,7 @@ const helpersDiscussion = {
 	getDiscussionsOfGroup: function(groupId){
 	  return axios.get("/api/groups/"+groupId+"/discussions")
 	    .then(function(results){
+			console.log(results);
 	        return results;
 	    })
 	},

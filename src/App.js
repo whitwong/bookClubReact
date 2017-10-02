@@ -21,7 +21,7 @@ class App extends Component {
     const { isAuthenticated } = this.props.auth;
 
     return (
-
+      
       <div>
         <nav className="z-depth-0">
           <div className="nav-wrapper">
@@ -74,9 +74,9 @@ class App extends Component {
                     <Button
                       bsStyle="primary"
                       className="btn-margin"
-                      onClick={this.goTo.bind(this, 'groups')}
+                      onClick={this.goTo.bind(this, 'community')}
                     >
-                      Groups
+                      Community
                   </Button>
                   </li>
                 )

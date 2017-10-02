@@ -1,18 +1,13 @@
 // Include Server Dependencies
 const express = require("express");
 const bodyParser = require("body-parser");
-//const passport = require("passport");
 const morgan = require("morgan");
 const path = require('path');
-/* var cookieParser = require('cookie-parser')
-var flash = require('connect-flash');
-var session = require('express-session'); */
 
 var db = require("./models");
 
 // Create Instance of Express
 var app = express();
-// Sets an initial port. We'll use this later in our listener
 var PORT = process.env.PORT || 5001;
 
 // Sets up the Express app to handle data parsing
@@ -107,10 +102,6 @@ app.post("/api/groups/:group/discussions", function (req, res) {
   });
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/public/index.html'));
-});
-
 // Get a specific Group's discussions
 app.get("/api/groups/:group/discussions", function(req, res){
   db.Group.findById(req.params.group)
@@ -121,6 +112,12 @@ app.get("/api/groups/:group/discussions", function(req, res){
         })
     });
 })
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/public/index.html'));
+});
+
+
 
 // -------------------------------------------------
 

@@ -21,13 +21,12 @@ class Library extends Component {
     this.state = {
       open: false,
       title: "",
-      author: "",
-      notes:"",
+      comments:"",
       results:[],
       user: "",
       email: null,
       photoRef: "",
-      nickname:""
+      nickname:"",
     };
 
     this.getUser = this.getUser.bind(this);
@@ -143,15 +142,6 @@ class Library extends Component {
                         className="form-control text-left"
                         placeholder="Title"
                         id="title"
-                        onChange={this.handleChange}
-                        required
-                      />
-                      <input
-                        value={this.state.author}
-                        type="text"
-                        className="form-control text-left"
-                        placeholder="Author"
-                        id="author"
                         onChange={this.handleChange}
                         required
                       />

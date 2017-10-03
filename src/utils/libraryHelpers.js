@@ -43,8 +43,8 @@ const libraryHelpers = {
 			return returnedBook;
 		});
 	},
-	deleteBooks: function(){
-
+	deleteBook: function(id){
+		return axios.delete("/api/library/"+id);
 	}
 }
 

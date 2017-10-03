@@ -61,6 +61,16 @@ app.get("/api/library/", function (req,res){
   });
 });
 
+app.delete("/api/library/:id",function(req,res){
+  db.Library.destroy({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(results){
+    res.json(results);
+  });
+});
+
 // Get a user based on their email. Create user if email not found.
 app.get('/api/users/:email', function (req, res) {
   db.User.findOne({

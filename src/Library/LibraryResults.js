@@ -22,36 +22,53 @@ class LibraryResults extends Component {
       modalTitle:"",
       modalAuthor:"",
       modalRating:"",
-      modalDescription: ""
+      modalDescription: "",
+      modalId: ""
     };
   }
   handleRequestClose = () => {
     this.setState({open: false});
   }
+  handleDelete=()=>{
+    libraryHelpers.deleteBook(this.state.modalId).then(function(response){
+      this.setState({
+      open: false,
+    });
+    }.bind(this))
+  }
   handleTouchTap = (event) => {
     this.setState({
       open: true,
     });
-    console.log("Modal Title: "+event.target.id);
-    libraryHelpers.modalInfo(event.target.id).then(function(response){
+    console.log("Modal Title: "+event.target.title);
+    const getId=event.target.id;
+    libraryHelpers.modalInfo(event.target.title).then(function(response){
       // console.log("response ", require("util").inspect(response,{depth:null}));
         // console.log(response.title);
       this.setState({
         modalTitle: response.title,
         modalAuthor: response.author,
         modalRating: response.rating,
-        modalDescription: response.description
+        modalDescription: response.description,
+        modalId: getId
       })
     }.bind(this))
   }    
 
 	render() {
     const standardActions = (
-      <FlatButton
-        label="Close"
-        primary={true}
-        onTouchTap={this.handleRequestClose}
-      />
+      <div>
+        <FlatButton
+          label="Close"
+          primary={true}
+          onTouchTap={this.handleRequestClose}
+        />
+        <FlatButton
+          label="Delete"
+          primary={true}
+          onTouchTap={this.handleDelete}
+        />
+      </div>
     );
 
 		return (
@@ -76,7 +93,7 @@ class LibraryResults extends Component {
                   onTouchTap={this.handleTouchTap}
                 >
                   <p className="bookTitle">{search.title}</p>
-                  <img className="bookImage" id={search.title} src={search.link}/>
+                  <img className="bookImage" title={search.title} id={search.id} src={search.link}/>
                 </div>
               </div>
             </MuiThemeProvider>

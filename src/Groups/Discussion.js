@@ -102,7 +102,7 @@ class Discussion extends Component {
 			display = (
 			  <Tabs className="col s5">
 			    <Tab label="+ Create Chat" >
-			    	<CreateDiscussion groupId={this.props.groupId} getDiscussions={this.getDiscussions} />
+			    	<CreateDiscussion groupId={this.props.group.id} getDiscussions={this.getDiscussions} />
 			    </Tab>
 			  </Tabs>
 			);

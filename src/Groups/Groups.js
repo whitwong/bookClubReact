@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/* import React, { Component } from 'react';
 
 import groupHelpers from '../utils/groupHelpers';
 
@@ -44,7 +44,7 @@ class Groups extends Component {
 		return (
 			<div className="wrapper">
 				<div className="row">
-					{/*Group Section*/}
+				
 					<div className="col s7 group">
 						<CreateGroup createGroup={this.createGroup} />
 						<GroupCards groups={this.state.groups} />
@@ -56,4 +56,4 @@ class Groups extends Component {
 
 }
 
-export default Groups;
+export default Groups; */

@@ -107,10 +107,6 @@ app.post("/api/groups/:group/discussions", function (req, res) {
   });
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/public/index.html'));
-});
-
 // Get a specific Group's discussions
 app.get("/api/groups/:group/discussions", function(req, res){
   db.Group.findById(req.params.group)
@@ -121,6 +117,10 @@ app.get("/api/groups/:group/discussions", function(req, res){
         })
     });
 })
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/public/index.html'));
+});
 
 // -------------------------------------------------
 

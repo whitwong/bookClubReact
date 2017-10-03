@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 
 import discussionHelpers from '../utils/helpersDiscussion';
@@ -6,7 +7,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import * as firebase from 'firebase';
-import CreateDiscussion from './DiscussionCreate';
+import CreateDiscussion from './CreateDiscussion';
 
 const config = {
   apiKey: "AIzaSyBUVyIW2d33WHzArLsdPx3X-X39qV-SZLY",
@@ -53,8 +54,9 @@ class Discussion extends Component {
   }
 
 	getDiscussions() {
-		discussionHelpers.getDiscussionsOfGroup(this.props.groupId)
+		discussionHelpers.getDiscussionsOfGroup(this.props.group.id)
 			.then((ListOfDiscussions) => {
+				console.log(ListOfDiscussions);
 				this.setState({ discList: ListOfDiscussions })
 			})
 	}
@@ -98,17 +100,17 @@ class Discussion extends Component {
 		let display;
 		if (!this.state.discList.data){
 			display = (
-			  <Tabs className="col-sm-5">
+			  <Tabs className="col s5">
 			    <Tab label="+ Create Chat" >
-			    	<CreateDiscussion groupId={this.props.groupId} getDiscussions={this.getDiscussions} />
+			    	<CreateDiscussion groupId={this.props.group.id} getDiscussions={this.getDiscussions} />
 			    </Tab>
 			  </Tabs>
 			);
 		} else {
 		  display = (
-			  <Tabs className="col-sm-5">
+			  <Tabs className="col s8 offset-s2">
 			  	<Tab label="+ Create Chat" >
-			    	<CreateDiscussion groupId={this.props.groupId} getDiscussions={this.getDiscussions} />
+			    	<CreateDiscussion groupId={this.props.group.id} getDiscussions={this.getDiscussions} />
 			    </Tab>
 			    {this.state.discList.data.map((discussion, i)=>{
 			    	return (

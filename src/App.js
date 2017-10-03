@@ -48,8 +48,8 @@ class App extends Component {
                     </li>
                     <li>
                       <FlatButton
-                        label="Library"
-                        onTouchTap={this.goTo.bind(this, 'library')}
+                        label="Discover"
+                        onTouchTap={this.goTo.bind(this, 'discover')}
                       />
                     </li>
                     <li>

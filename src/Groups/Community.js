@@ -1,6 +1,5 @@
 import React from 'react';
 
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {
   Step,
@@ -27,26 +26,45 @@ class Community extends React.Component {
       stepIndex: 0
     };
 
+    //this.getUser = this.getUser.bind(this);
     this.getGroups = this.getGroups.bind(this);
     this.createGroup = this.createGroup.bind(this);
     this.selectGroup = this.selectGroup.bind(this);
   }
 
-  componentDidMount() {
-    this.getGroups();
-  }
-
   getGroups() {
-    const { userProfile } = this.props.auth;
-    groupHelpers.getGroups(userProfile.email)
+    //const { userProfile } = this.props.auth;
+    groupHelpers.getGroups(this.state.email)
       .then((data) => {
         this.setState({ groups: data })
       })
   }
 
+  // Get the user profile from Auth0. Store the email in state.email
+  componentDidMount() {
+    let self = this;
+    const { userProfile, getProfile } = this.props.auth;
+    if (!userProfile) {
+      getProfile((err, profile) => {
+        this.setState({ 
+          email: profile.email, 
+          nickname: profile.nickname,
+          picture: profile.picture
+        }, self.getGroups);
+        
+      });
+    } else {
+      this.setState({ 
+        email: userProfile.email,
+        nickname: userProfile.nickname,
+        picture: userProfile.picture
+       }, self.getGroups);
+    }
+  }
+
   createGroup(groupName) {
-    const { userProfile } = this.props.auth;
-    groupHelpers.createGroup(groupName, userProfile.email)
+    //const { userProfile } = this.props.auth;
+    groupHelpers.createGroup(groupName, this.state.email)
       .then(() => {
         this.getGroups()
       })
@@ -84,7 +102,7 @@ class Community extends React.Component {
         );
       case 1:
         return (
-          <Discussion group={this.state.selectedGroup} />
+          <Discussion group={this.state.selectedGroup} nickname={this.state.nickname} />
         );
       case 2:
         return (

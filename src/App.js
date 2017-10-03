@@ -74,9 +74,9 @@ class App extends Component {
                     <Button
                       bsStyle="primary"
                       className="btn-margin"
-                      onClick={this.goTo.bind(this, 'groups')}
+                      onClick={this.goTo.bind(this, 'community')}
                     >
-                      Groups
+                      Community
                   </Button>
                   </li>
                 )

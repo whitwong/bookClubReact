@@ -7,7 +7,7 @@ import Callback from './Callback/Callback';
 import Auth from './Auth/Auth';
 import history from './history';
 import Library from './Library/Library';
-import Groups from './Groups/Groups';
+import Community from './Groups/Community';
 import Discover from './Discover/Discover';
 
 const auth = new Auth();
@@ -38,20 +38,20 @@ export const makeMainRoutes = () => {
               <Library auth={auth} {...props} />
             )
           )} />
-          <Route path="/groups" render={(props) => (
+          <Route path="/community" render={(props) => (
             !auth.isAuthenticated() ? (
               <Redirect to="/home"/>
             ) : (
-              <Groups auth={auth} {...props} />
+              <Community auth={auth} {...props} />
             )
           )} />
-{/*           <Route path="/discover" render={(props) => (
+          <Route path="/discover" render={(props) => (
             !auth.isAuthenticated() ? (
               <Redirect to="/home"/>
             ) : (
               <Discover auth={auth} {...props} />
             )
-          )} /> */}
+          )} />
           <Route path="/callback" render={(props) => {
             handleAuthentication(props);
             return <Callback {...props} /> 

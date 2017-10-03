@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -7,7 +8,7 @@ const divStyle = {
     textAlign: "center"
 };
 
-class discussionCreate extends Component {
+class CreateDiscussion extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,4 +52,4 @@ class discussionCreate extends Component {
   }
 }
 
-export default discussionCreate;
+export default CreateDiscussion;

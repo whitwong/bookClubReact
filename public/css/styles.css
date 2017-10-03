@@ -39,6 +39,9 @@ h2 {
 
 
 /*Library*/
+#personalPicture {
+    width: 200px;
+}
 
 .bookList {
   min-height:500px;

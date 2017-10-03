@@ -46,7 +46,8 @@ app.post("/api/library", function (req, res) {
     title: req.body.title,
     author: req.body.author,
     comments: req.body.comments,
-    link: req.body.link
+    link: req.body.link,
+    UserId: req.body.UserId
   }).then(function (results) {
     res.json(results);
   });

@@ -25,7 +25,9 @@ class Library extends Component {
       notes:"",
       results:[],
       user: "",
-      email: null
+      email: null,
+      photoRef: "",
+      nickname:""
     };
 
     this.getUser = this.getUser.bind(this);
@@ -38,6 +40,7 @@ class Library extends Component {
       this.setState({
         user: result.data
       });
+      console.log("USER: "+this.state.user.id);
     })
   }
 
@@ -47,11 +50,21 @@ class Library extends Component {
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
       getProfile((err, profile) => {
-        this.setState({ email: profile.email }, self.getUser);
+        console.log(profile);
+        this.setState({ 
+          email: profile.email,
+          photoRef: profile.picture,
+          nickname: profile.nickname
+        }, self.getUser);
       });
     } else {
       this.setState({ email: userProfile.email }, self.getUser);
     }
+    libraryHelpers.showBooks().then(function(response){
+      this.setState({
+        results: response.data
+      })
+    }.bind(this))
   }
 
 
@@ -59,9 +72,9 @@ class Library extends Component {
     this.setState({open: false});
     libraryHelpers.getBookImageTitle(this.state.title).then(function(data){
       // console.log("Data ",require("util").inspect(data, {depth:null}))
-      libraryHelpers.saveBook(data.returnedTitle, data.returnedAuthor, this.state.comments, data.returnedLink);
+      libraryHelpers.saveBook(data.returnedTitle, data.returnedAuthor, this.state.comments, data.returnedLink, this.state.user.id);
       libraryHelpers.showBooks().then(function(response){
-        console.log("newBook ",require("util").inspect(response, {depth:null}));
+        // console.log("newBook ",require("util").inspect(response, {depth:null}));
         this.setState({
           results: response.data
         })
@@ -98,11 +111,12 @@ class Library extends Component {
             <div className="row personalInfo">
               <div className="panel panel-primary">
                 <div className="panel-heading">
-                  <h3 className="panel-title">Username</h3>
+                  <h3 className="panel-title">{this.state.nickname}</h3>
                 </div>
                 <div className="panel-body">
+                  <img src={this.state.photoRef} id="personalPicture" alt="picture"/>
                   <p id="personalFavorite">Favorite Book: The Power of One</p>
-                  <p id="personalCurrent">"Currently Reading: You Dont Know JS"</p>
+                  <p id="personalCurrent">Currently Reading: You Dont Know JS</p>
                 </div>
               </div>
             </div>

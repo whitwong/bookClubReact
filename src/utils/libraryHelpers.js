@@ -14,12 +14,13 @@ const libraryHelpers = {
 			return returnedDisplay;
 		});
 	},
-	saveBook: function(title, author, comments, link){
+	saveBook: function(title, author, comments, link, user){
 		var newBook={
 			title: title,
 			author: author,
 			comments: comments,
-			link: link
+			link: link,
+			UserId: user
 		}
 		return axios.post("/api/library",newBook);
 

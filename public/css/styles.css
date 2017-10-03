@@ -1,0 +1,79 @@
+/*Home Page*/
+
+/*Styles for every page*/
+nav {
+  background:#7384a0;
+  color:#fff;
+  height: 84px;
+  line-height: 84px;
+  border-top:navy 9px solid;
+}
+
+nav ul a {
+  font-size: 1.2em;
+  padding: 0 30px;
+  font-size:1.2em;
+  color:#fff;
+  line-height:76px;
+}
+
+h1 {
+  margin:0px;
+  padding-left:50px;
+  height:70px;
+  line-height:70px;
+  font-family: 'Inconsolata', monospace;
+  font-weight:bold;
+  color:navy;
+}
+
+h2 {
+  margin: 0px;
+  font-family: 'PT Mono', monospace;
+  font-size: 1.8em;
+  font-weight: bold;
+  padding:5px;
+  color:navy;
+
+}
+
+
+/*Library*/
+#personalPicture {
+    width: 200px;
+}
+
+.bookList {
+  min-height:500px;
+  text-align:center;
+  background:white;
+  box-sizing:border-box;
+  padding:0px;
+}
+
+/*CSS for each book added to bookshelf*/
+.book {
+  padding: 5px 8px;
+  display: inline-block;
+  max-width: 175px;
+  margin: auto;
+}
+.wrapper {
+    box-sizing: border-box;
+    width: 95%;
+    margin: 15px auto;
+    text-align: center
+}
+.bookTitle {
+    margin: 2px;
+    font-weight: bold;
+    color: navy;
+}
+.bookAuthor {
+    color: navy;
+    font-size: 0.9em;
+    margin: 0px;
+}
+.bookImage{
+  width:130px;
+}

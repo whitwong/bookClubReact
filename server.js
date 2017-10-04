@@ -8,7 +8,7 @@ const path = require('path');
 var flash = require('connect-flash');
 var session = require('express-session'); */
 
-var db = require("./models");
+var db = require("./client/models");
 
 // Create Instance of Express
 var app = express();

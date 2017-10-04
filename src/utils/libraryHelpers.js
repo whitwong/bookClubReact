@@ -25,8 +25,8 @@ const libraryHelpers = {
 		return axios.post("/api/library",newBook);
 
 	},
-	showBooks: function(){
-		return axios.get("/api/library");
+	showBooks: function(id){
+		return axios.get("/api/library/"+id);
 	},
 	modalInfo: function(title){
 		const apiKey = "AIzaSyBUVyIW2d33WHzArLsdPx3X-X39qV-SZLY";
@@ -55,8 +55,8 @@ const libraryHelpers = {
 		console.log("ID: "+id);
 		return axios.put("/api/users/"+id, updateInfo);
 	},
-	getUserBooks: function(id){
-		return axios.get("/api/users/"+id);
+	getUserBooks: function(email){
+		return axios.get("/api/users/"+email);
 	}
 }
 

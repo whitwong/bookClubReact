@@ -3,9 +3,6 @@ module.exports = function (sequelize, DataTypes) {
         email: {
             type: DataTypes.STRING
         },
-        name: {
-            type: DataTypes.STRING
-        },
         currentlyReading: {
             type: DataTypes.TEXT,
             allowNull:true
@@ -13,9 +10,6 @@ module.exports = function (sequelize, DataTypes) {
         favoriteBook: {
             type: DataTypes.TEXT,
             allowNull:true
-        },
-        photoRef: {
-            type: DataTypes.STRING
         }
     });
 

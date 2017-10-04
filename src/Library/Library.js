@@ -30,11 +30,12 @@ class Library extends Component {
       profileOpen:false,
       favoriteBook:"",
       currentlyReading:"",
-      myFavorite:"initial",
-      myCurrent:"initial"
+      myFavorite:"",
+      myCurrent:""
     };
 
     this.getUser = this.getUser.bind(this);
+    this.getLibrary=this.getLibrary.bind(this);
   }
 
   // Use state.email from Auth0 to get MySQL user or create new user. Store user in state.user
@@ -43,11 +44,24 @@ class Library extends Component {
     .then((result) => {
       this.setState({
         user: result.data
-      });
+      }, this.getLibrary);
       // console.log("USER: "+this.state.user.id);
     })
   }
 
+  getLibrary(){
+    libraryHelpers.showBooks(this.state.user.id).then(function(response){
+      this.setState({
+        results: response.data
+      })
+    }.bind(this))
+    libraryHelpers.getUserBooks(this.state.email).then(function(response){
+      this.setState({
+        myFavorite: response.data.favoriteBook,
+        myCurrent: response.data.currentlyReading
+      })
+    }.bind(this))
+  }
   // Get the user profile from Auth0. Store the email in state.email
   componentDidMount() {
     let self = this;
@@ -62,13 +76,13 @@ class Library extends Component {
         }, self.getUser);
       });
     } else {
-      this.setState({ email: userProfile.email }, self.getUser);
+      this.setState({ 
+        email: userProfile.email,
+        photoRef: userProfile.picture,
+        nickname: userProfile.nickname,
+      }, self.getUser);
     }
-    libraryHelpers.showBooks().then(function(response){
-      this.setState({
-        results: response.data
-      })
-    }.bind(this))
+
   }
 
 
@@ -76,8 +90,7 @@ class Library extends Component {
     this.setState({open: false});
     libraryHelpers.getBookImageTitle(this.state.title).then(function(data){
       libraryHelpers.saveBook(data.returnedTitle, data.returnedAuthor, this.state.comments, data.returnedLink, this.state.user.id);
-      libraryHelpers.showBooks().then(function(response){
-        // console.log("newBook ",require("util").inspect(response, {depth:null}));
+      libraryHelpers.showBooks(this.state.user.id).then(function(response){
         this.setState({
           results: response.data
         })
@@ -86,12 +99,12 @@ class Library extends Component {
   }
   handleEditRequestClose = () => {
     this.setState({profileOpen: false});
-    // console.log("favorite: "+this.state.favoriteBook);
-    // console.log("current: "+this.state.currentlyReading);
     libraryHelpers.updateUserBooks(this.state.user.id, this.state.favoriteBook, this.state.currentlyReading).then(function(response){
-      console.log("ID: "+this.state.user.id);
-      libraryHelpers.getUserBooks(this.state.user.id).then(function(response){
-        console.log(response);
+      libraryHelpers.getUserBooks(this.state.email).then(function(response){
+        this.setState({
+          myFavorite: response.data.favoriteBook,
+          myCurrent: response.data.currentlyReading
+        })
       }.bind(this))
     }.bind(this))
   }

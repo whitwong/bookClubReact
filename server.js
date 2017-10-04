@@ -53,8 +53,12 @@ app.post("/api/library", function (req, res) {
   });
 });
 
-app.get("/api/library/", function (req,res){
-  db.Library.findAll()
+app.get("/api/library/:id", function (req,res){
+  db.Library.findAll({
+    where:{
+      id: req.params.id
+    }
+  })
   .then(function(results){
     console.log
     res.json(results);
@@ -106,20 +110,6 @@ app.put("/api/users/:id", function (req,res){;
     res.json(results);
   });
 });
-
-app.get("/api/users/:id", function (req,res){;
-  db.User.findAll(
-  {
-    where: {
-      id: req.params.id
-    }
-  })
-  .then(function(results){
-    res.json(results);
-  });
-});
-
-
 
 // Add a new group and associate the user to that group
 app.post("/api/groups", function (req, res) {

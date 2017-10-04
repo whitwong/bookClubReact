@@ -45,6 +45,18 @@ const libraryHelpers = {
 	},
 	deleteBook: function(id){
 		return axios.delete("/api/library/"+id);
+	},
+	updateUserBooks: function(id, favorite, current){
+		var updateInfo={
+			favoriteBook: favorite,
+			currentlyReading: current
+		};
+		console.log(updateInfo);
+		console.log("ID: "+id);
+		return axios.put("/api/users/"+id, updateInfo);
+	},
+	getUserBooks: function(id){
+		return axios.get("/api/users/"+id);
 	}
 }
 

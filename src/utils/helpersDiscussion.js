@@ -1,25 +1,9 @@
 import axios from "axios";
 
 const helpersDiscussion = {
-	// Read all current discussions in database and display on discussions.html
-	getGroupDiscussions: function(){
-		return axios.get("/api/group/discussions")
-			.then(function(results){
-				return results;
-			})
-	},
-
 	// Get a specific Group's discussions
 	getDiscussionsOfGroup: function(groupId){
 	  return axios.get("/api/groups/"+groupId+"/discussions")
-	    .then(function(results){
-	        return results;
-	    })
-	},
-
-	// Get a specific discussion from a group
-	getOneDiscussion: function(groupId, discussionId){
-	  return axios.get("/api/groups/"+groupId+"/discussions/"+discussionId)
 	    .then(function(results){
 	        return results;
 	    })
@@ -34,8 +18,8 @@ const helpersDiscussion = {
 	},
 
 	// Update discussion name
-	updateDiscussionName: function(groupId, discussionId){
-	  return axios.put("/api/groups/"+groupId+"/discussions/"+discussionId)
+	updateDiscussionName: function(groupId, discussionId, chatName){
+	  return axios.put("/api/groups/"+groupId+"/discussions/"+discussionId, {name: chatName})
 	    .then(function(results){
 	        return results;
 	    })

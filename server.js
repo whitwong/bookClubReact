@@ -129,6 +129,32 @@ app.get("/api/groups/:group/discussions", function(req, res){
     });
 })
 
+// Delete discussion in database whenever a group member deletes it
+app.delete("/api/groups/:group/discussions/:discussion", function(req, res){
+  db.Discussion.destroy({
+    where: {
+      id: req.params.discussion
+    }
+  }).then(function(results){
+    res.json(results);
+  });
+});
+
+// Update discussion name
+app.put("/api/groups/:group/discussions/:discussion", function(req, res){
+  db.Discussion.update(
+  {
+    name: req.body.name
+  },
+  {
+    where: {
+      id: req.params.discussion
+    }
+  }).then(function(results){
+    res.json(results)
+  });
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/public/index.html'));
 });

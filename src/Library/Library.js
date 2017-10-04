@@ -27,9 +27,15 @@ class Library extends Component {
       email: null,
       photoRef: "",
       nickname:"",
+      profileOpen:false,
+      favoriteBook:"",
+      currentlyReading:"",
+      myFavorite:"",
+      myCurrent:""
     };
 
     this.getUser = this.getUser.bind(this);
+    this.getLibrary=this.getLibrary.bind(this);
   }
 
   // Use state.email from Auth0 to get MySQL user or create new user. Store user in state.user
@@ -38,18 +44,31 @@ class Library extends Component {
     .then((result) => {
       this.setState({
         user: result.data
-      });
-      console.log("USER: "+this.state.user.id);
+      }, this.getLibrary);
+      // console.log("USER: "+this.state.user.id);
     })
   }
 
+  getLibrary(){
+    libraryHelpers.showBooks(this.state.user.id).then(function(response){
+      this.setState({
+        results: response.data
+      })
+    }.bind(this))
+    libraryHelpers.getUserBooks(this.state.email).then(function(response){
+      this.setState({
+        myFavorite: response.data.favoriteBook,
+        myCurrent: response.data.currentlyReading
+      })
+    }.bind(this))
+  }
   // Get the user profile from Auth0. Store the email in state.email
   componentDidMount() {
     let self = this;
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
       getProfile((err, profile) => {
-        console.log(profile);
+        // console.log(profile);
         this.setState({ 
           email: profile.email,
           photoRef: profile.picture,
@@ -57,33 +76,46 @@ class Library extends Component {
         }, self.getUser);
       });
     } else {
-      this.setState({ email: userProfile.email }, self.getUser);
+      this.setState({ 
+        email: userProfile.email,
+        photoRef: userProfile.picture,
+        nickname: userProfile.nickname,
+      }, self.getUser);
     }
-    libraryHelpers.showBooks().then(function(response){
-      this.setState({
-        results: response.data
-      })
-    }.bind(this))
+
   }
 
 
   handleRequestClose = () => {
     this.setState({open: false});
     libraryHelpers.getBookImageTitle(this.state.title).then(function(data){
-      // console.log("Data ",require("util").inspect(data, {depth:null}))
       libraryHelpers.saveBook(data.returnedTitle, data.returnedAuthor, this.state.comments, data.returnedLink, this.state.user.id);
-      libraryHelpers.showBooks().then(function(response){
-        // console.log("newBook ",require("util").inspect(response, {depth:null}));
+      libraryHelpers.showBooks(this.state.user.id).then(function(response){
         this.setState({
           results: response.data
         })
       }.bind(this))
     }.bind(this))
   }
+  handleEditRequestClose = () => {
+    this.setState({profileOpen: false});
+    libraryHelpers.updateUserBooks(this.state.user.id, this.state.favoriteBook, this.state.currentlyReading).then(function(response){
+      libraryHelpers.getUserBooks(this.state.email).then(function(response){
+        this.setState({
+          myFavorite: response.data.favoriteBook,
+          myCurrent: response.data.currentlyReading
+        })
+      }.bind(this))
+    }.bind(this))
+  }
 
   handleTouchTap = () => {
+    this.setState({ open: true });
+
+  }
+  handleEditTouchTap = () => {
     this.setState({
-      open: true,
+      profileOpen: true
     });
   }
 
@@ -102,6 +134,13 @@ class Library extends Component {
         onTouchTap={this.handleRequestClose}
       />
     );
+    const editActions = (
+      <FlatButton
+        label="Update"
+        primary={true}
+        onTouchTap={this.handleEditRequestClose}
+      />
+    );
 
     return (
       <div className="wrapper">
@@ -114,8 +153,43 @@ class Library extends Component {
                 </div>
                 <div className="panel-body">
                   <img src={this.state.photoRef} id="personalPicture" alt="picture"/>
-                  <p id="personalFavorite">Favorite Book: The Power of One</p>
-                  <p id="personalCurrent">Currently Reading: You Dont Know JS</p>
+                  <p id="personalFavorite">Favorite Book: {this.state.myFavorite}</p>
+                  <p id="personalCurrent">Currently Reading: {this.state.myCurrent}</p>
+                  <MuiThemeProvider muiTheme={muiTheme}>
+                    <div>
+                      <Dialog
+                        open={this.state.profileOpen}
+                        title="Edit Profile"
+                        actions={editActions}
+                        onRequestClose={this.handleEditRequestClose}
+                        autoScrollBodyContent={true}
+                      >
+                        <input
+                          value={this.state.favoriteBook}
+                          type="text"
+                          className="form-control text-left"
+                          placeholder="My Favorite Book"
+                          id="favoriteBook"
+                          onChange={this.handleChange}
+                          required
+                        />
+                        <input
+                          value={this.state.currentlyReading}
+                          type="text"
+                          className="form-control text-left"
+                          placeholder="Currently Reading..."
+                          id="currentlyReading"
+                          onChange={this.handleChange}
+                          required
+                        />
+                      </Dialog>
+                      <RaisedButton
+                        label="Edit"
+                        secondary={true}
+                        onTouchTap={this.handleEditTouchTap}
+                      />
+                    </div>
+                  </MuiThemeProvider>
                 </div>
               </div>
             </div>

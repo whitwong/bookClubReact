@@ -43,7 +43,8 @@ class Discussion extends Component {
 			firebaseMessages: [],
 			chatId: "",
 			chatName: "",
-			open: false
+			openEdit: false,
+			openDelete: false
 		}
 		this.getDiscussions = this.getDiscussions.bind(this);
 		this.handleSubmitChat = this.handleSubmitChat.bind(this);
@@ -76,12 +77,20 @@ class Discussion extends Component {
     this.setState({ userMessage: "" });
   }
 
-  handleOpen = () => {
-    this.setState({open: true});
+  handleOpenEdit = () => {
+    this.setState({ openEdit: true });
   };
 
-  handleClose = () => {
-    this.setState({open: false});
+  handleCloseEdit = () => {
+    this.setState({ openEdit: false });
+  };
+
+  handleOpenDelete = () => {
+    this.setState({ openDelete: true });
+  };
+
+  handleCloseDelete = () => {
+    this.setState({ openDelete: false });
   };
 
 	getDiscussions() {
@@ -96,6 +105,7 @@ class Discussion extends Component {
 			.then(() => {
 				const chatRef = firebase.database().ref().child('chat').child("chat"+this.state.chatId);
     		chatRef.remove();
+    		this.handleCloseDelete();
 				this.getDiscussions();
 			})
 	}
@@ -103,7 +113,7 @@ class Discussion extends Component {
 	editDiscussionName() {
 		discussionHelpers.updateDiscussionName(this.props.group.id, this.state.chatId, this.state.chatName)
 			.then(() => {
-				this.handleClose();
+				this.handleCloseEdit();
 				this.getDiscussions();
 				this.setState({ chatName: "" })
 			})
@@ -133,16 +143,29 @@ class Discussion extends Component {
 	}
 
 	render(){
-    const actions = [
+    const editActions = [
       <FlatButton
         label="Cancel"
         primary={true}
-        onClick={this.handleClose}
+        onClick={this.handleCloseEdit}
       />,
       <FlatButton
         label="Submit"
         primary={true}
         onClick={this.editDiscussionName}
+      />,
+    ];
+
+    const deleteActions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleCloseDelete}
+      />,
+      <FlatButton
+        label="Delete"
+        secondary={true}
+        onClick={this.deleteDiscussion}
       />,
     ];
 
@@ -190,8 +213,8 @@ class Discussion extends Component {
 							      targetOrigin={{horizontal: 'right', vertical: 'bottom'}}
 							      style={menuStyles}
 						    	>
-						      <MenuItem primaryText="Edit Chat Name" onClick={this.handleOpen} />
-						      <MenuItem primaryText="Delete Chat" onClick={this.deleteDiscussion} />
+						      <MenuItem primaryText="Edit Chat Name" onClick={this.handleOpenEdit} />
+						      <MenuItem primaryText="Delete Chat" onClick={this.handleOpenDelete} />
 						    </IconMenu>
 					      </div>
 			    		</Tab>
@@ -206,9 +229,10 @@ class Discussion extends Component {
 				{display}
         <Dialog
           title="Update Discussion Name"
-          actions={actions}
-          modal={true}
-          open={this.state.open}
+          actions={editActions}
+          modal={false}
+          open={this.state.openEdit}
+ 		      onRequestClose={this.handleCloseEdit}
         >
 					<TextField 
 	          value={this.state.chatName}
@@ -219,6 +243,16 @@ class Discussion extends Component {
 	          fullWidth={true}
 	          onSubmit={(event) => this.editDiscussionName(event)}
 	        />
+        </Dialog>
+
+        <Dialog
+        	title="Delete Discussion?"
+          actions={deleteActions}
+          modal={false}
+          open={this.state.openDelete}
+          onRequestClose={this.handleCloseDelete}
+        >
+        	Are you sure??? You won't be able retrieve this discussion after you delete it.
         </Dialog>
 			</div>
 		)

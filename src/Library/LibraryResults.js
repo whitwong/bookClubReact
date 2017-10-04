@@ -2,17 +2,10 @@ import React, { Component } from 'react';
 import userHelpers from '../utils/userHelpers';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
-import { deepOrange500 } from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import libraryHelpers from '../utils/libraryHelpers';
-
-const muiTheme = getMuiTheme({
-  palette: {
-    accent1Color: deepOrange500,
-  },
-});
 
 class LibraryResults extends Component {
   constructor(props) {
@@ -75,7 +68,7 @@ class LibraryResults extends Component {
 			<div>
       	{this.props.results.map(function(search,i){
           return (
-            <MuiThemeProvider muiTheme={muiTheme} key={i}>
+            <MuiThemeProvider key={i}>
               <div className="book">
                 <Dialog
                   open={this.state.open}

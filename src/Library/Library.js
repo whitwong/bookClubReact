@@ -2,18 +2,11 @@ import React, { Component } from 'react';
 import userHelpers from '../utils/userHelpers';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
-import { deepOrange500 } from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LibraryResults from './LibraryResults';
 import libraryHelpers from '../utils/libraryHelpers';
-
-const muiTheme = getMuiTheme({
-  palette: {
-    accent1Color: deepOrange500,
-  },
-});
 
 class Library extends Component {
   constructor(props) {
@@ -147,15 +140,17 @@ class Library extends Component {
         <div className="row">
           <div className="col-sm-3 about">
             <div className="row personalInfo">
-              <div className="panel panel-primary">
-                <div className="panel-heading">
+              <div className="panel panel-primary" id="panelPrimary">
+                <div className="panel-heading" id="panel">
                   <h3 className="panel-title">{this.state.nickname}</h3>
                 </div>
                 <div className="panel-body">
                   <img src={this.state.photoRef} id="personalPicture" alt="picture"/>
-                  <p id="personalFavorite">Favorite Book: {this.state.myFavorite}</p>
-                  <p id="personalCurrent">Currently Reading: {this.state.myCurrent}</p>
-                  <MuiThemeProvider muiTheme={muiTheme}>
+                  <div id="personalInfo">
+                    <p><strong>Favorite Book: </strong>{this.state.myFavorite}</p>
+                    <p><strong>Currently Reading: </strong>{this.state.myCurrent}</p>
+                  </div>
+                  <MuiThemeProvider>
                     <div>
                       <Dialog
                         open={this.state.profileOpen}
@@ -183,11 +178,7 @@ class Library extends Component {
                           required
                         />
                       </Dialog>
-                      <RaisedButton
-                        label="Edit"
-                        secondary={true}
-                        onTouchTap={this.handleEditTouchTap}
-                      />
+                      <a onTouchTap={this.handleEditTouchTap} id="editLink">Edit</a>
                     </div>
                   </MuiThemeProvider>
                 </div>
@@ -196,12 +187,12 @@ class Library extends Component {
           </div>
 
           <div className="col-sm-9 bookList">
-            <div className="panel panel-primary">
-              <div className="panel-heading">
+            <div className="panel panel-primary" id="panelPrimary">
+              <div className="panel-heading" id="panel">
                 <h3 className="panel-title">Bookshelf</h3>
               </div>
               <div className="panel-body"> 
-                <MuiThemeProvider muiTheme={muiTheme}>
+                <MuiThemeProvider>
                   <div>
                     <Dialog
                       open={this.state.open}

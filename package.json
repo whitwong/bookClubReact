@@ -1,36 +1,27 @@
 {
-  "name": "user-profile",
-  "version": "0.1.0",
-  "private": true,
-  "devDependencies": {
-    "react-scripts": "0.9.5"
-  },
-  "dependencies": {
-    "auth0-js": "^8.8.0",
-    "axios": "^0.16.2",
-    "body-parser": "^1.18.2",
-    "bootstrap": "^3.3.7",
-    "express": "^4.15.5",
-    "firebase": "^4.4.0",
-    "history": "^4.6.1",
-    "material-ui": "^0.19.2",
-    "moment": "^2.18.1",
-    "morgan": "^1.9.0",
-    "mysql2": "^1.4.2",
-    "nodemon": "^1.12.1",
-    "react": "^15.5.4",
-    "react-bootstrap": "^0.31.0",
-    "react-dom": "^15.5.4",
-    "react-router": "^4.1.1",
-    "react-router-dom": "^4.1.1",
-    "react-tap-event-plugin": "^2.0.1",
-    "sequelize": "^4.11.1"
-  },
+  "name": "bookclubreact",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
-  "proxy": "http://localhost:5001"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whitwong/bookClubReact.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/whitwong/bookClubReact/issues"
+  },
+  "homepage": "https://github.com/whitwong/bookClubReact#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.1",
+    "morgan": "^1.9.0",
+    "path": "^0.12.7"
+  }
 }
